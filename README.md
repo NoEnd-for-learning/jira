@@ -45,3 +45,17 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 # jira
+
+# prettier: https://www.prettier.cn/docs//install.html
+```shell script
+npm install --dev --exact prettier
+
+echo {}> .prettierrc.json
+
+npm install --save-dev husky lint-staged
+
+"lint-staged": {
+    "*.{js,css,md,ts,tsx}": "prettier --write"
+  }
+```
+
