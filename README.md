@@ -59,3 +59,15 @@ npm install --save-dev husky lint-staged
   }
 ```
 
+### json-server: https://github.com/typicode/json-server
+```javascript
+window.fetch('http://localhost:3000/users').then(r => r.json()).then(console.log);
+
+GET /tickets // 列表
+GET /tickets/12 // 详情
+POST /tickets  // 增加
+PUT /tickets/12 // 替换
+PATCH /tickets/12 // 修改
+DELETE /tickets/12 // 删除
+
+```
