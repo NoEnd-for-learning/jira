@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 import qs from 'qs';
-import { cleanObject } from '../utils'
-import { useAsync } from '../hooks/useAsync';
-import { useDebounce } from '../hooks/useDebounce';
+import { cleanObject } from 'utils'
+import { useAsync } from 'hooks/useAsync';
+import { useDebounce } from 'hooks/useDebounce';
 import { List } from './list';
 import { SearchPanel } from './search-panel';
 
