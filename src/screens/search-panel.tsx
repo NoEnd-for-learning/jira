@@ -1,4 +1,18 @@
-export const SearchPanel = ({ param = {}, setParam, users = [] }) => {
+interface Param {
+    name: string,
+    personId: number | string,
+}
+interface User {
+    id: number | string,
+    name: string,
+}
+interface Props {
+    param: Param,
+    setParam: any,
+    users: User[],
+}
+
+export const SearchPanel = ({ param, setParam, users = [] }: Props) => {
   return (
     <form action="">
       <input
