@@ -71,3 +71,10 @@ PATCH /tickets/12 // 修改
 DELETE /tickets/12 // 删除
 
 ```
+
+# 安装 jira-dev-tool
+```javascript
+// 1. yarn add jira-dev-tool@1.5.1
+// 2. npx msw init public
+// 3. 如果本地不需要，可以删除json-server 的相关内容，因为jira-dev-tool插件已经集成了
+```

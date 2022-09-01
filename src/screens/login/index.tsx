@@ -1,24 +1,19 @@
 import { FormEvent, useCallback } from "react";
+import { login, register } from 'utils/auth-provider';
+
+let isLogin = false;
 
 export const Login = () => {
-
-    const login = (param: {username: string, password: string}) => {
-        window.fetch(`${process.env.REACT_APP_API_URL}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(param),
-        }).then(r => r.json()).then(() => {
-
-        });
-    };
 
     const onSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
         const username = (evt.currentTarget.elements[0] as HTMLInputElement).value;
         const password = (evt.currentTarget.elements[1] as HTMLInputElement).value;
-        login({username, password});
+        if(isLogin) {
+            login({username, password});
+        } else {
+            register({username, password});
+        }
     }, []);
 
     return (
@@ -31,7 +26,11 @@ export const Login = () => {
                 <label htmlFor="password">密码</label>
                 <input type="password" id="password"/>
             </div>
-            <button type="submit">登录</button>
+            <button type="submit"
+                    onClick={() => isLogin = true}>登录</button>
+            <button type="submit"
+                    onClick={() => isLogin = false}
+                    style={{marginLeft: 10}}>注册</button>
         </form>
     );
 };
