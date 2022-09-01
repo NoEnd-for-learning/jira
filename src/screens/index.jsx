@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import qs from 'qs';
 import { cleanObject } from '../utils'
+import { useAsync } from '../hooks/useAsync';
+import { useDebounce } from '../hooks/useDebounce';
 import { List } from './list';
 import { SearchPanel } from './search-panel';
 
@@ -10,20 +12,32 @@ export const ProjectListScreen = () => {
     personId: '',
   });
   const [list, setList] = useState([]);
-  const [users, setUsers] = useState([]);
+  const debounceParam = useDebounce(param, 500);
 
+  // 普通方式请求获取 list
   useEffect(() => {
-    window.fetch(`${process.env.REACT_APP_API_URL}/projects?${qs.stringify(cleanObject(param))}`)
+    const queryStr = qs.stringify(cleanObject(debounceParam));
+    window.fetch(`${process.env.REACT_APP_API_URL}/projects?${queryStr}`)
       .then(r => r.json()).then((ls) => {
         setList(ls);
       });
-  }, [param]);
+  }, [debounceParam]);
+
+  // 自定义hooks 获取users
+  const {
+    execute: fetchUsers,
+    data: users,
+    // loading,
+    // error,
+  } = useAsync(
+    useCallback(() => window.fetch(`${process.env.REACT_APP_API_URL}/users`), []),
+    [],
+    true,
+  );
 
   useEffect(() => {
-    window.fetch(`${process.env.REACT_APP_API_URL}/users`)
-      .then(r => r.json()).then((us) => {
-        setUsers(us);
-      });
+    fetchUsers();
+    // eslint-disable-next-line
   }, []);
 
   return (
