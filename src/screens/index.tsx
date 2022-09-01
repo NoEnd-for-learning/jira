@@ -24,12 +24,12 @@ export const ProjectListScreen = () => {
   }, [debounceParam]);
 
   // 自定义hooks 获取users
-  const {
-    execute: fetchUsers,
-    data: users,
+  const [
+    fetchUsers,
+    users,
     // loading,
     // error,
-  } = useAsync(
+  ] = useAsync(
     useCallback(() => window.fetch(`${process.env.REACT_APP_API_URL}/users`), []),
     [],
     true,
