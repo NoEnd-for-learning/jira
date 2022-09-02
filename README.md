@@ -92,3 +92,31 @@ import 'antd/dist/antd.min.css';
 其中，__jira-dev-tool__ 为copy 1.5.1 版本的代码，并修改了样式引入，重新npm install 生成的依赖包
 (参考：https://developer.aliyun.com/article/970973)
 ```
+
+## 类型别名
+```typescript
+// interface 在这种情况下，没法替代type
+type FavoriteNumber = string | number;
+```
+## Utility type
+```typescript
+type Person = {
+    id: number,
+    name: string,
+    age: number,
+}
+const xiaoMing: Partial<Person> = {};
+const xiaoHong: Omit<Person, 'name' | 'age'> = {id: 12};
+```
+
+## Partial 实现
+```typescript
+type Partial<T> = {
+    [P in keyof T]?: T[P];
+};
+```
+
+## Omit 实现
+```typescript
+type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
+```
