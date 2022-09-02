@@ -2,23 +2,27 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'index.css';
 import App from 'App';
+import { AppProviders } from 'context';
 import reportWebVitals from 'reportWebVitals';
 import { loadDevTools } from 'jira-dev-tool';
 
+// 初始化的render 写法
 // const root = ReactDOM.createRoot(
 //   document.getElementById('root') as HTMLElement
 // );
 // root.render(
-//   // <React.StrictMode>
+//   <React.StrictMode>
 //     <App />
-//   // </React.StrictMode>
+//   </React.StrictMode>
 // );
 
+// 使用jira-dev-tool 包装的写法
 loadDevTools(() => {
     const root = ReactDOM.createRoot(
         document.getElementById('root') as HTMLElement
     );
-    root.render(<App />);
+    // AppProviders 注入组件，使组件可以全局获取用户登录信息/方法
+    root.render(<AppProviders><App /></AppProviders>);
 });
 
 // If you want to start measuring performance in your app, pass a function
