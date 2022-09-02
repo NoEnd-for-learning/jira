@@ -1,10 +1,12 @@
 import { useEffect, useState, useCallback } from "react";
 import qs from 'qs';
-import { cleanObject } from 'utils'
+import { cleanObject } from 'utils';
+import { useHttp } from 'utils/http';
 import { useAsync } from 'hooks/useAsync';
 import { useDebounce } from 'hooks/useDebounce';
 import { List } from './list';
 import { SearchPanel } from './search-panel';
+
 
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
@@ -13,14 +15,16 @@ export const ProjectListScreen = () => {
   });
   const [list, setList] = useState([]);
   const debounceParam = useDebounce(param, 500);
+  const client = useHttp();
 
   // 普通方式请求获取 list
   useEffect(() => {
-    const queryStr = qs.stringify(cleanObject(debounceParam));
-    window.fetch(`${process.env.REACT_APP_API_URL}/projects?${queryStr}`)
-      .then(r => r.json()).then((ls) => {
-        setList(ls);
-      });
+    client(
+        'projects',
+        {data: cleanObject(debounceParam)}
+        ).then((ls) => {
+          setList(ls);
+        });
   }, [debounceParam]);
 
   // 自定义hooks 获取users
@@ -30,9 +34,8 @@ export const ProjectListScreen = () => {
     // loading,
     // error,
   ] = useAsync(
-    useCallback(() => window.fetch(`${process.env.REACT_APP_API_URL}/users`), []),
-    [],
-    true,
+    useCallback(() => client('users', {}), []),
+    []
   );
 
   useEffect(() => {

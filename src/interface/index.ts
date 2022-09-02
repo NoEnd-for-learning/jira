@@ -25,3 +25,8 @@ export type AuthCtxProps = {
 export interface ProviderProps {
     children: ReactNode,
 }
+
+export interface FetchConfig extends RequestInit {
+    token?: string,
+    data?: object,
+}

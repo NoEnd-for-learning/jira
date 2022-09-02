@@ -1,21 +1,14 @@
-import { FormEvent, useCallback } from "react";
-
-import {useAuth} from "context/auth-context";
-
-let isLogin = false;
+import { FormEvent, useCallback } from 'react';
+import {useAuth} from 'context/auth-context';
 
 export const Login = () => {
-    const {login, user, register} = useAuth(); // 使用context 获取用户数据(全局)
+    const {login, user} = useAuth(); // 使用context 获取用户数据(全局)
 
     const onSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
         const username = (evt.currentTarget.elements[0] as HTMLInputElement).value;
         const password = (evt.currentTarget.elements[1] as HTMLInputElement).value;
-        if(isLogin) {
-            login({username, password});
-        } else {
-            register({username, password});
-        }
+        login({username, password});
     }, []);
 
     return (
@@ -27,7 +20,7 @@ export const Login = () => {
                         <h4>用户名：{user?.name}</h4>
                         <h4>Token：{user?.token}</h4>
                     </div>
-                ) : <p>请登录 / 注册 🙂</p>
+                ) : null
             }
             <div>
                 <label htmlFor="username">用户名</label>
@@ -37,11 +30,7 @@ export const Login = () => {
                 <label htmlFor="password">密码</label>
                 <input type="password" id="password"/>
             </div>
-            <button type="submit"
-                    onClick={() => isLogin = true}>登录</button>
-            <button type="submit"
-                    onClick={() => isLogin = false}
-                    style={{marginLeft: 10}}>注册</button>
+            <button type="submit">登录</button>
         </form>
     );
 };

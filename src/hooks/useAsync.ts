@@ -8,7 +8,7 @@ export type AsyncResponse = [
     any, // error
 ]
 
-export function useAsync(asyncFn: AsyncFn, initialValue: any, isFetch = true): AsyncResponse {
+export function useAsync(asyncFn: AsyncFn, initialValue: any): AsyncResponse {
     const [data, setData] = useState(initialValue);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -17,8 +17,7 @@ export function useAsync(asyncFn: AsyncFn, initialValue: any, isFetch = true): A
         setData(initialValue);
         setLoading(true);
         setError(null);
-        let promise = isFetch ? asyncFn().then(r => r.json()) : asyncFn();
-        return promise
+        return asyncFn()
             .then((response) => {
                 setData(response)
             })
@@ -28,7 +27,7 @@ export function useAsync(asyncFn: AsyncFn, initialValue: any, isFetch = true): A
             .finally(() => {
                 setLoading(false);
             })
-    }, [asyncFn, initialValue, isFetch]);
+    }, [asyncFn, initialValue]);
 
     // 这里使用 tuple
     // tuple 是 "数量固定，类型可以各异" 版的数组
