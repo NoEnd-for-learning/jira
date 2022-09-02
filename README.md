@@ -78,3 +78,17 @@ DELETE /tickets/12 // 删除
 // 2. npx msw init public
 // 3. 如果本地不需要，可以删除json-server 的相关内容，因为jira-dev-tool插件已经集成了
 ```
+
+## bug fix
+```text
+基于 "jira-dev-tool": "1.5.1", 由于有antd 样式引入的warning, 因此做了优化：
+
+import 'antd/dist/antd.css';
+改为
+import 'antd/dist/antd.min.css';
+
+然后项目引入改为：
+"jira-dev-tool": "file:__jira-dev-tool__"
+其中，__jira-dev-tool__ 为copy 1.5.1 版本的代码，并修改了样式引入，重新npm install 生成的依赖包
+(参考：https://developer.aliyun.com/article/970973)
+```

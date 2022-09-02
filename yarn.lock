@@ -6215,10 +6215,8 @@ jest@^27.4.3:
     import-local "^3.0.2"
     jest-cli "^27.5.1"
 
-jira-dev-tool@1.5.1:
+"jira-dev-tool@file:__jira-dev-tool__":
   version "1.5.1"
-  resolved "https://registry.npmmirror.com/jira-dev-tool/-/jira-dev-tool-1.5.1.tgz#521c1334cb8f3cdef9face48d7be8ebb52884be0"
-  integrity sha512-ji2sDuybTPLvNdMCC6/mNDselLJ1birEYrkVnvvN6UnLf7k9hq/tIeUFl80xWbMsVY7glJ+9397qTx86ALgaYw==
   dependencies:
     antd "^4.9.1"
     msw "^0.24.1"
