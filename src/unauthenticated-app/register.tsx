@@ -1,27 +1,28 @@
-import { FormEvent, useCallback } from 'react';
-import {useAuth} from 'context/auth-context';
+import { useCallback } from 'react';
+import { useAuth } from 'context/auth-context';
+import { Form, Button, Input } from 'antd';
+import { LongButton } from 'unauthenticated-app';
 
 export const Register = () => {
-    const {register} = useAuth(); // 使用context 获取用户数据(全局)
+    const { register } = useAuth(); // 使用context 获取用户数据(全局)
 
-    const onSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
-        evt.preventDefault();
-        const username = (evt.currentTarget.elements[0] as HTMLInputElement).value;
-        const password = (evt.currentTarget.elements[1] as HTMLInputElement).value;
+    const onSubmit = useCallback(({ username, password }: {username: string, password: string}) => {
         register({username, password});
-    }, []);
+    }, [register]);
 
     return (
-        <form action="" onSubmit={onSubmit}>
-            <div>
-                <label htmlFor="username">用户名</label>
-                <input type="text" id="username"/>
-            </div>
-            <div>
-                <label htmlFor="password">密码</label>
-                <input type="password" id="password"/>
-            </div>
-            <button type="submit">注册</button>
-        </form>
+        <Form onFinish={onSubmit}>
+            <Form.Item name={'username'}
+                       rules={[{required: true, message: '请输入用户名'}]}
+            >
+                <Input placeholder="用户名" type="text" id="username"/>
+            </Form.Item>
+            <Form.Item name={'password'}
+                       rules={[{required: true, message: '请输入密码'}]}
+            >
+                <Input placeholder="密码" type="password" id="password"/>
+            </Form.Item>
+            <LongButton type="primary" htmlType="submit">注册</LongButton>
+        </Form>
     );
 };

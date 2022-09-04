@@ -25,6 +25,7 @@ export const ProjectListScreen = () => {
         ).then((ls) => {
           setList(ls);
         });
+    // eslint-disable-next-line
   }, [debounceParam]);
 
   // 自定义hooks 获取users
@@ -34,6 +35,7 @@ export const ProjectListScreen = () => {
     // loading,
     // error,
   ] = useAsync(
+      // eslint-disable-next-line
     useCallback(() => client('users', {}), []),
     []
   );

@@ -5,6 +5,7 @@ import App from 'App';
 import { AppProviders } from 'context';
 import reportWebVitals from 'reportWebVitals';
 import { loadDevTools } from 'jira-dev-tool';
+import 'antd/dist/antd.less'; // 务必在jira-dev-tool 之后引入，实现覆盖
 
 // 初始化的render 写法
 // const root = ReactDOM.createRoot(

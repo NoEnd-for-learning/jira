@@ -1,36 +1,28 @@
-import { FormEvent, useCallback } from 'react';
-import {useAuth} from 'context/auth-context';
+import { useCallback } from 'react';
+import { useAuth } from 'context/auth-context';
+import { Form, Input } from 'antd';
+import { LongButton } from 'unauthenticated-app';
 
 export const Login = () => {
-    const {login, user} = useAuth(); // 使用context 获取用户数据(全局)
+    const { login } = useAuth(); // 使用context 获取用户数据(全局)
 
-    const onSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
-        evt.preventDefault();
-        const username = (evt.currentTarget.elements[0] as HTMLInputElement).value;
-        const password = (evt.currentTarget.elements[1] as HTMLInputElement).value;
+    const onSubmit = useCallback(({ username, password }: {username: string, password: string}) => {
         login({username, password});
-    }, []);
+    }, [login]);
 
     return (
-        <form action="" onSubmit={onSubmit}>
-            {
-                user ? (
-                    <div style={{backgroundColor: '#eee'}}>
-                        <h3>登录成功 😊</h3>
-                        <h4>用户名：{user?.name}</h4>
-                        <h4>Token：{user?.token}</h4>
-                    </div>
-                ) : null
-            }
-            <div>
-                <label htmlFor="username">用户名</label>
-                <input type="text" id="username"/>
-            </div>
-            <div>
-                <label htmlFor="password">密码</label>
-                <input type="password" id="password"/>
-            </div>
-            <button type="submit">登录</button>
-        </form>
+        <Form onFinish={onSubmit}>
+            <Form.Item name={'username'}
+                       rules={[{required: true, message: '请输入用户名'}]}
+            >
+                <Input placeholder="用户名" type="text" id="username"/>
+            </Form.Item>
+            <Form.Item name={'password'}
+                       rules={[{required: true, message: '请输入密码'}]}
+            >
+                <Input placeholder="密码" type="password" id="password"/>
+            </Form.Item>
+            <LongButton type="primary" htmlType="submit">登录</LongButton>
+        </Form>
     );
 };

@@ -1,3 +1,5 @@
+import { Table } from 'antd';
+
 interface Project {
     id: number,
     name: string,
@@ -13,28 +15,28 @@ interface Props {
 }
 
 export const List = ({list = [], users = []}: Props) => {
-  return (
-    <table>
-      <thead>
-      <tr>
-        <th>名称</th>
-        <th>负责人</th>
-      </tr>
-      </thead>
-      <tbody>
-      {
-        list.map(l => (
-          <tr key={l.id}>
-            <td>{l.name}</td>
-            <td>
-              {
-                users.find((u => u.id === l.personId))?.name || '未知'
-              }
-            </td>
-          </tr>
-        ))
-      }
-      </tbody>
-    </table>
-  );
+    const dataSource = list.map(l => ({
+        ...l,
+        personName: users.find((u => u.id === l.personId))?.name || '未知',
+    }));
+    return (
+        <Table pagination={false}
+               rowKey="id"
+               columns={[
+                   {
+                       title: '名称',
+                       dataIndex: 'name',
+                       width: 200,
+                       sorter: (a, b) =>
+                           a.name.localeCompare(b.name),
+                   },
+                   {
+                       title: '负责人',
+                       dataIndex: 'personName',
+                       width: 200,
+                   },
+               ]}
+               dataSource={dataSource}
+        />
+    );
 };
