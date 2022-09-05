@@ -1,6 +1,6 @@
 import { Select, Input, Form } from 'antd';
 
-interface Param {
+export interface Param {
     name: string,
     personId: number | string,
 }

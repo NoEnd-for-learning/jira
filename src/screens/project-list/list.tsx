@@ -1,30 +1,17 @@
-import { Table } from 'antd';
+import { Table, TableProps } from 'antd';
 import { useCallback } from 'react';
 import dayjs from 'dayjs';
+import { Project } from 'interface';
 
-interface Project {
-    id: number,
-    name: string,
-    personId: number,
-    pin: boolean,
-    organization: string,
-    created: number,
-}
 interface User {
     id: number,
     name: string,
 }
-interface Props {
-    list: Project[],
+interface Props extends TableProps<Project>{
     users: User[],
 }
 
-export const List = ({list = [], users = []}: Props) => {
-    const dataSource = list.map(l => ({
-        ...l,
-        personName: users.find((u => u.id === l.personId))?.name || '未知',
-    }));
-
+export const List = ({users = [], ...props}: Props) => {
     const sorter = useCallback((a: Project, b: Project, key: 'name' | 'organization') => {
         return a[key].localeCompare(b[key]);
     }, []);
@@ -46,6 +33,8 @@ export const List = ({list = [], users = []}: Props) => {
                    {
                        title: '负责人',
                        dataIndex: 'personName',
+                       render: (text, record, index) =>
+                           users.find((u => u.id === record.personId))?.name || '未知'
                    },
                    {
                        title: '创建时间',
@@ -53,7 +42,7 @@ export const List = ({list = [], users = []}: Props) => {
                        render: (text, record, index) => text ? dayjs(text).format('YYYY-MM-DD') : '无'
                    }
                ]}
-               dataSource={dataSource}
+               {...props}
         />
     );
 };

@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import {Param} from "../screens/project-list/search-panel";
 
 export interface User {
     id: number,
@@ -29,4 +30,13 @@ export interface ProviderProps {
 export interface FetchConfig extends RequestInit {
     token?: string,
     data?: object,
+}
+
+export interface Project extends Param {
+    // name: string,
+    // personId: number | string,
+    id: number,
+    pin: boolean,
+    organization: string,
+    created: number,
 }
