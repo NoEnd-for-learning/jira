@@ -1,9 +1,14 @@
 import { Table } from 'antd';
+import { useCallback } from 'react';
+import dayjs from 'dayjs';
 
 interface Project {
     id: number,
     name: string,
     personId: number,
+    pin: boolean,
+    organization: string,
+    created: number,
 }
 interface User {
     id: number,
@@ -19,6 +24,11 @@ export const List = ({list = [], users = []}: Props) => {
         ...l,
         personName: users.find((u => u.id === l.personId))?.name || '未知',
     }));
+
+    const sorter = useCallback((a: Project, b: Project, key: 'name' | 'organization') => {
+        return a[key].localeCompare(b[key]);
+    }, []);
+
     return (
         <Table pagination={false}
                rowKey="id"
@@ -26,15 +36,22 @@ export const List = ({list = [], users = []}: Props) => {
                    {
                        title: '名称',
                        dataIndex: 'name',
-                       width: 200,
-                       sorter: (a, b) =>
-                           a.name.localeCompare(b.name),
+                       sorter: (a, b) => sorter(a, b,'name'),
+                   },
+                   {
+                       title: '部门',
+                       dataIndex: 'organization',
+                       sorter: (a, b) => sorter(a, b,'organization'),
                    },
                    {
                        title: '负责人',
                        dataIndex: 'personName',
-                       width: 200,
                    },
+                   {
+                       title: '创建时间',
+                       dataIndex: 'created',
+                       render: (text, record, index) => text ? dayjs(text).format('YYYY-MM-DD') : '无'
+                   }
                ]}
                dataSource={dataSource}
         />

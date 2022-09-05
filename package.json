@@ -54,6 +54,7 @@
     "@emotion/styled": "^11.10.4",
     "antd": "^4.22.8",
     "craco-antd": "^2.0.0",
+    "dayjs": "^1.11.5",
     "eslint-config-prettier": "6.15.0",
     "husky": "6.0.0",
     "jira-dev-tool": "file:__jira-dev-tool__",
