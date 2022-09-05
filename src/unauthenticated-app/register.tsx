@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useAuth } from 'context/auth-context';
-import { Form, Button, Input } from 'antd';
+import { Form, Input } from 'antd';
 import { LongButton } from 'unauthenticated-app';
 
 export const Register = () => {

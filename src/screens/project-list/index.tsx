@@ -1,5 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
-import qs from 'qs';
+import { useEffect, useState, useCallback } from 'react';
 import { cleanObject } from 'utils';
 import { useHttp } from 'utils/http';
 import { useAsync } from 'hooks/useAsync';
