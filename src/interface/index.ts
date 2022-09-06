@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 import {Param} from "../screens/project-list/search-panel";
 
 export interface User {
@@ -23,8 +23,8 @@ export type AuthCtxProps = {
     logout: () => Promise<void>,
 } | undefined;
 
-export interface ProviderProps {
-    children: ReactNode,
+export interface ProviderProps extends PropsWithChildren {
+    // todo
 }
 
 export interface FetchConfig extends RequestInit {
