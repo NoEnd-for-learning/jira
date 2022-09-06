@@ -1,23 +1,38 @@
-import {useState, createContext, useContext, useEffect} from 'react';
+import { createContext, useContext, useEffect } from 'react';
 import * as auth from 'auth-provider';
 import { User, AuthForm, AuthCtxProps, ProviderProps } from 'interface';
 import { http } from 'utils/http';
+import {useAPI} from 'hooks/useAPI';
+import { FullPageLoading, FullPageErrorFallback } from 'components/lib';
 
-const bootstrapUser = async () => {
+const bootstrapUser = () => {
   let user = null;
   const token = auth.getToken();
   if(token) {
-      const res = await http('me', {token});
-      user = res?.user;
+      return  new Promise<any>((resolve, reject) => {
+          http('me', { token })
+              .then(res => {
+                  resolve(res?.user);
+              })
+              .catch(reject);
+      });
   }
-  return user;
+  return Promise.resolve(user);
 };
 
 const AuthContext = createContext<AuthCtxProps>(undefined);
 AuthContext.displayName = 'AuthContext';
 
 export const AuthProvider = ({ children }: ProviderProps) => {
-    const [user, setUser] = useState<User | null>(null);
+    const {
+        data: user,
+        setData: setUser,
+        error,
+        isLoading,
+        isIdle,
+        isError,
+        run,
+    } = useAPI<User | null>()
     const login = (form: AuthForm) =>
         auth.login(form).then(r => setUser(r as User));
     const register = (form: AuthForm) =>
@@ -25,8 +40,17 @@ export const AuthProvider = ({ children }: ProviderProps) => {
     const logout = () => auth.logout().then(setUser);
 
     useEffect(() => {
-        bootstrapUser().then(setUser); // 设置默认值
+        run(bootstrapUser()); // 设置默认值
+        // eslint-disable-next-line
     }, []);
+
+    if(isIdle || isLoading) {
+        return <FullPageLoading />;
+    }
+
+    if(isError) {
+        return <FullPageErrorFallback error={error} />;
+    }
 
     return (
         <AuthContext.Provider

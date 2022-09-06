@@ -1,4 +1,5 @@
 import { User, AuthForm } from 'interface';
+import { http } from 'utils/http';
 // 模拟登录认证
 // 在真实环境中，如果使用了 firebase 这种第三方auth 服务的话，本文件不需要开发者手动创建
 const localStorageKey = '__auth_provider_token__';
@@ -12,19 +13,11 @@ export const handleUserResponse = ({ user }: { user: User }) => {
 
 export const login = (data: AuthForm) => {
     return new Promise((resolve, reject) => {
-        window.fetch(`${process.env.REACT_APP_API_URL}/login`, {
+        http('login', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        }).then(async (response) => {
-            let res = await response.json();
-            if(response.ok) {
-                resolve(handleUserResponse(res) as User);
-            } else {
-                reject(res);
-            }
+            data,
+        }).then((res) => {
+            resolve(handleUserResponse(res) as User);
         }).catch((err) => {
             reject(err);
         });
@@ -33,21 +26,13 @@ export const login = (data: AuthForm) => {
 
 export const register = (data: AuthForm) => {
     return new Promise((resolve, reject) => {
-        window.fetch(`${process.env.REACT_APP_API_URL}/register`, {
+        http('register', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        }).then(async (response) => {
-            if(response.ok) {
-                let res = await response.json();
-                resolve(handleUserResponse(res) as User);
-            } else {
-                reject(null);
-            }
-        }).catch(() => {
-            reject(null);
+            data,
+        }).then((res) => {
+            resolve(handleUserResponse(res) as User);
+        }).catch((err) => {
+            reject(err);
         });
     });
 };

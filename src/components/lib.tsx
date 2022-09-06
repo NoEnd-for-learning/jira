@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-import {HTMLAttributes} from "react";
+import { HTMLAttributes } from 'react';
+import { Spin, Typography } from 'antd';
 
 interface P extends HTMLAttributes<any>{
     gap?: number | boolean | undefined,
@@ -22,3 +23,22 @@ margin-bottom: ${(props: P) => props.marginBottom + 'rem'};
   };
 }
 `;
+
+const FullPage = styled.div`
+height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+`;
+
+export const FullPageLoading = () => (
+    <FullPage>
+        <Spin size="large" />
+    </FullPage>
+);
+
+export const FullPageErrorFallback = ({error}: {error: Error | null}) => (
+    <FullPage>
+        <Typography.Text type="danger">{error?.message}</Typography.Text>
+    </FullPage>
+);

@@ -28848,7 +28848,7 @@ var DevTool = function DevTool() {
       zIndex: 9999
     }
   }, /*#__PURE__*/React__default.createElement(Tooltip, {
-    title: '点击使用开发者控制台'
+    title: '控制台'
   }, /*#__PURE__*/React__default.createElement(SettingTwoTone$2, {
     style: {
       fontSize: '22px'
