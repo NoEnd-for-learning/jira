@@ -2,13 +2,16 @@ import { useCallback } from 'react';
 import { useAuth } from 'context/auth-context';
 import { Form, Input } from 'antd';
 import { LongButton } from 'unauthenticated-app';
+import { LoginOrRegisterInfo } from 'interface';
+import { useAPI } from 'hooks/useAPI';
 
-export const Login = () => {
+export const Login = ({onError}: {onError: (error: Error) => void}) => {
     const { login } = useAuth(); // 使用context 获取用户数据(全局)
+    const { run, isLoading } = useAPI(undefined, { throwOnError: true });
 
-    const onSubmit = useCallback(({ username, password }: {username: string, password: string}) => {
-        login({username, password});
-    }, [login]);
+    const onSubmit = useCallback(({ username, password }: LoginOrRegisterInfo) => {
+        run(login({username, password}).catch(onError));
+    }, [login, onError, run]);
 
     return (
         <Form onFinish={onSubmit}>
@@ -22,7 +25,7 @@ export const Login = () => {
             >
                 <Input placeholder="密码" type="password" id="password"/>
             </Form.Item>
-            <LongButton type="primary" htmlType="submit">登录</LongButton>
+            <LongButton type="primary" htmlType="submit" loading={isLoading}>登录</LongButton>
         </Form>
     );
 };

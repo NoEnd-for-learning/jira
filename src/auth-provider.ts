@@ -19,11 +19,11 @@ export const login = (data: AuthForm) => {
             },
             body: JSON.stringify(data),
         }).then(async (response) => {
+            let res = await response.json();
             if(response.ok) {
-                let res = await response.json();
                 resolve(handleUserResponse(res) as User);
             } else {
-                reject(data);
+                reject(res);
             }
         }).catch((err) => {
             reject(err);

@@ -23,7 +23,13 @@ loadDevTools(() => {
         document.getElementById('root') as HTMLElement
     );
     // AppProviders 注入组件，使组件可以全局获取用户登录信息/方法
-    root.render(<AppProviders><App /></AppProviders>);
+    root.render(
+        <React.StrictMode>
+            <AppProviders>
+                <App />
+            </AppProviders>
+        </React.StrictMode>
+    );
 });
 
 // If you want to start measuring performance in your app, pass a function

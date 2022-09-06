@@ -40,3 +40,9 @@ export interface Project extends Param {
     organization: string,
     created: number,
 }
+
+export interface LoginOrRegisterInfo {
+    username: string,
+    password: string,
+    cpassword: string,
+}

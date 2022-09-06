@@ -2,13 +2,20 @@ import { useCallback } from 'react';
 import { useAuth } from 'context/auth-context';
 import { Form, Input } from 'antd';
 import { LongButton } from 'unauthenticated-app';
+import { LoginOrRegisterInfo } from 'interface';
+import {useAPI} from "../hooks/useAPI";
 
-export const Register = () => {
+export const Register = ({onError}: {onError: (error: Error) => void}) => {
     const { register } = useAuth(); // 使用context 获取用户数据(全局)
+    const { run, isLoading } = useAPI(undefined, { throwOnError: true });
 
-    const onSubmit = useCallback(({ username, password }: {username: string, password: string}) => {
-        register({username, password});
-    }, [register]);
+    const onSubmit = useCallback(({ username, password, cpassword }: LoginOrRegisterInfo) => {
+        if(cpassword !== password) {
+            onError(new Error('请确认两次输入的密码相同'));
+            return;
+        }
+        run(register({username, password}).catch(onError));
+    }, [register, onError, run]);
 
     return (
         <Form onFinish={onSubmit}>
@@ -22,7 +29,12 @@ export const Register = () => {
             >
                 <Input placeholder="密码" type="password" id="password"/>
             </Form.Item>
-            <LongButton type="primary" htmlType="submit">注册</LongButton>
+            <Form.Item name={'cpassword'}
+                       rules={[{required: true, message: '请确认密码'}]}
+            >
+                <Input placeholder="确认密码" type="password" id="cpassword"/>
+            </Form.Item>
+            <LongButton type="primary" htmlType="submit" loading={isLoading}>注册</LongButton>
         </Form>
     );
 };

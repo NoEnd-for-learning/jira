@@ -12,7 +12,12 @@ const defaultInitialState: State<null> = {
     error: null,
 };
 
-export const useAPI = <D>(initialState?: State<D>) => {
+const defaultConfig = {
+  throwOnError: false,
+};
+
+export const useAPI = <D>(initialState?: State<D>, initialConfig?: typeof defaultConfig) => {
+    const config = {...defaultConfig, ...initialConfig};
     const [state, setState] = useState<State<D>>({
         ...defaultInitialState,
         ...initialState,
@@ -42,7 +47,11 @@ export const useAPI = <D>(initialState?: State<D>) => {
             return data;
         }).catch(err => {
             setError(err);
-            return err;
+            if (config.throwOnError) {
+                return Promise.reject(err)
+            } else {
+                return err;
+            }
         });
     };
 
