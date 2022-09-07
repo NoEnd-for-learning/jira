@@ -34,7 +34,7 @@ export interface FetchConfig extends RequestInit {
 
 export interface Project extends Param {
     // name: string,
-    // personId: number | string,
+    // personId: number,
     id: number,
     pin: boolean,
     organization: string,

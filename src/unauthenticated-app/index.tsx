@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Login } from 'unauthenticated-app/login';
-import { Register } from 'unauthenticated-app/register';
 import {Card, Divider, Button, Typography} from 'antd';
 import styled from '@emotion/styled';
+import { Login } from 'unauthenticated-app/login';
+import { Register } from 'unauthenticated-app/register';
 import logo from 'assets/logo.svg';
 import left from 'assets/left.svg';
 import right from 'assets/right.svg';

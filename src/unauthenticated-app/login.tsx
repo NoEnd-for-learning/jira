@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
-import { useAuth } from 'context/auth-context';
 import { Form, Input } from 'antd';
 import { LongButton } from 'unauthenticated-app';
 import { LoginOrRegisterInfo } from 'interface';
 import { useAPI } from 'hooks/useAPI';
+import { useAuth } from 'context/auth-context';
 
 export const Login = ({ onError }: {onError: (error: Error) => void}) => {
     const { login } = useAuth(); // 使用context 获取用户数据(全局)

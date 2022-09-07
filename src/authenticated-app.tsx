@@ -1,12 +1,12 @@
+import styled from '@emotion/styled';
+import { Dropdown, Menu, Button } from 'antd';
+import { Navigate, Route, Routes } from 'react-router';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { StyledRow } from 'components/lib';
 import { ProjectListScreen } from 'screens/project-list';
 import { ProjectScreen } from 'screens/project';
-import { useAuth } from 'context/auth-context';
-import styled from '@emotion/styled';
-import { StyledRow } from 'components/lib';
 import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg';
-import { Dropdown, Menu, Button } from 'antd';
-import {Navigate, Route, Routes} from 'react-router';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { useAuth } from 'context/auth-context';
 import { resetRoute } from 'utils';
 
 export const AuthenticatedApp = () => {
