@@ -2,6 +2,8 @@ import { Table, TableProps } from 'antd';
 import { useCallback } from 'react';
 import dayjs from 'dayjs';
 import { Project } from 'interface';
+// react-router 跟 react-router-dom 的关系类似react（生产方） 跟react-dom（消费方） 的关系
+import { Link } from 'react-router-dom';
 
 interface User {
     id: number,
@@ -24,6 +26,9 @@ export const List = ({users = [], ...props}: Props) => {
                        title: '名称',
                        dataIndex: 'name',
                        sorter: (a, b) => sorter(a, b,'name'),
+                       render: (text, record, index) => {
+                           return <Link to={String(record.id)}>{text}</Link>;
+                       },
                    },
                    {
                        title: '部门',
