@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from 'react';
+import {createContext, useContext, useEffect, useRef} from 'react';
 import * as auth from 'auth-provider';
 import { User, AuthForm, AuthCtxProps, ProviderProps } from 'interface';
 import { http } from 'utils/http';
@@ -32,7 +32,9 @@ export const AuthProvider = ({ children }: ProviderProps) => {
         isIdle,
         isError,
         run,
-    } = useAPI<User | null>()
+    } = useAPI<User | null>();
+    const runRef = useRef(run).current; // 持久化 run
+
     const login = (form: AuthForm) =>
         auth.login(form).then(r => setUser(r as User));
     const register = (form: AuthForm) =>
@@ -40,9 +42,8 @@ export const AuthProvider = ({ children }: ProviderProps) => {
     const logout = () => auth.logout().then(setUser);
 
     useEffect(() => {
-        run(bootstrapUser()); // 设置默认值
-        // eslint-disable-next-line
-    }, []);
+        runRef(bootstrapUser()); // 设置默认值
+    }, [runRef]);
 
     if(isIdle || isLoading) {
         return <FullPageLoading />;

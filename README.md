@@ -120,3 +120,12 @@ type Partial<T> = {
 ```typescript
 type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
 ```
+
+### 拓展插件
+```text
+https://github.com/bvaughn/react-error-boundary
+
+https://www.npmjs.com/package/helmet
+
+
+```

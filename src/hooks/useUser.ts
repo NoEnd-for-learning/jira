@@ -1,12 +1,13 @@
 import { useAPI } from 'hooks/useAPI';
 import { User } from 'interface';
-import { useEffect } from 'react';
+import {useEffect, useRef} from 'react';
 import { cleanObject } from 'utils';
 import { useHttp } from 'utils/http';
 
 export const useUser = (param?: Partial<User>) => {
-    const { run, ...result } = useAPI<User[]>();
-    const client = useHttp();
+    const result = useAPI<User[]>();
+    const run = useRef(result.run).current; // 持久化 run
+    const client = useRef(useHttp()).current; // 持久化 client
 
     useEffect(() => {
         run(
@@ -15,8 +16,7 @@ export const useUser = (param?: Partial<User>) => {
                 {data: cleanObject(param || {})}
             )
         );
-        // eslint-disable-next-line
-    }, [param]);
+    }, [param, run, client]);
 
     return result;
 };
