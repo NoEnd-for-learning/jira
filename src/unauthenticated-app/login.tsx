@@ -2,12 +2,12 @@ import { useCallback } from 'react';
 import { Form, Input } from 'antd';
 import { LongButton } from 'unauthenticated-app';
 import { LoginOrRegisterInfo } from 'interface';
-import { useAPI } from 'hooks/useAPI';
+import { useAsync } from 'hooks/useAsync';
 import { useAuth } from 'context/auth-context';
 
 export const Login = ({ onError }: {onError: (error: Error) => void}) => {
     const { login } = useAuth(); // 使用context 获取用户数据(全局)
-    const { run, isLoading } = useAPI(undefined, { throwOnError: true });
+    const { run, isLoading } = useAsync(undefined, { throwOnError: true });
 
     const onSubmit = useCallback(({ username, password }: LoginOrRegisterInfo) => {
         run(login({username, password}).catch(onError));

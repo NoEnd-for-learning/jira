@@ -1,11 +1,11 @@
-import { useAPI } from 'hooks/useAPI';
+import { useAsync } from 'hooks/useAsync';
 import { User } from 'interface';
 import {useEffect, useRef} from 'react';
 import { cleanObject } from 'utils';
 import { useHttp } from 'utils/http';
 
 export const useUser = (param?: Partial<User>) => {
-    const result = useAPI<User[]>();
+    const result = useAsync<User[]>();
     const run = useRef(result.run).current; // 持久化 run
     const client = useRef(useHttp()).current; // 持久化 client
 

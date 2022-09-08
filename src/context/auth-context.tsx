@@ -2,7 +2,7 @@ import {createContext, useContext, useEffect, useRef} from 'react';
 import * as auth from 'auth-provider';
 import { User, AuthForm, AuthCtxProps, ProviderProps } from 'interface';
 import { http } from 'utils/http';
-import {useAPI} from 'hooks/useAPI';
+import {useAsync} from 'hooks/useAsync';
 import { FullPageLoading, FullPageErrorFallback } from 'components/lib';
 
 const bootstrapUser = () => {
@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: ProviderProps) => {
         isIdle,
         isError,
         run,
-    } = useAPI<User | null>();
+    } = useAsync<User | null>();
     const runRef = useRef(run).current; // 持久化 run
 
     const login = (form: AuthForm) =>
