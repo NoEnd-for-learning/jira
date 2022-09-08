@@ -10,12 +10,10 @@ export const useProject = (param?: Partial<Project>) => {
     const client = useRef(useHttp()).current; // 持久化 client
 
     useEffect(() => {
-        run(
-            client(
-                'projects',
-                {data: cleanObject(param || {})}
-            )
-        );
+        run(() => client(
+            'projects',
+            {data: cleanObject(param || {})}
+        ));
     }, [param, run, client]);
 
     return result;
@@ -26,7 +24,7 @@ export const useEditProject = () => {
     const runRef = useRef(run).current;
     const client = useRef(useHttp()).current;
     const mutate = (params: Partial<Project>) => {
-        runRef(client(`projects/${params.id}`, {
+        return runRef(() => client(`projects/${params.id}`, {
             data: params,
             method: 'PATCH',
         }));
@@ -42,7 +40,7 @@ export const useAddProject = () => {
     const runRef = useRef(run).current;
     const client = useRef(useHttp()).current;
     const mutate = (params: Partial<Project>) => {
-        runRef(client(`projects/${params.id}`, {
+        return runRef(() => client(`projects/${params.id}`, {
             data: params,
             method: 'POST',
         }));

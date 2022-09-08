@@ -13,6 +13,7 @@ interface User {
 }
 interface Props extends TableProps<Project>{
     users: User[],
+    refresh?: () => void,
 }
 
 export const List = ({users = [], ...props}: Props) => {
@@ -20,7 +21,12 @@ export const List = ({users = [], ...props}: Props) => {
         return a[key].localeCompare(b[key]);
     }, []);
     const { mutate } = useEditProject();
-    const pinProject = (id: number) => (pin: boolean) => mutate({id, pin}); // 柯里化
+    const pinProject = (id: number) => (pin: boolean) => mutate({id, pin})
+        .then(() => {
+            if(props?.refresh) {
+                props?.refresh();
+            }
+        }); // 柯里化
 
     return (
         <Table pagination={false}

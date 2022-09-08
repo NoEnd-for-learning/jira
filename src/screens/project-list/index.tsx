@@ -24,7 +24,7 @@ export const ProjectListScreen = () => {
 
     const [param, setParam] = useProjectSearchParams();
     const debounceParam = useDebounce(param, 200);
-    const { isLoading, error, data: list } = useProject(debounceParam);
+    const { isLoading, error, data: list, retry } = useProject(debounceParam);
     const { data: users } = useUser();
 
     return (
@@ -35,7 +35,11 @@ export const ProjectListScreen = () => {
                          users={users || []}
             />
             {error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
-            <List dataSource={list || []} users={users || []} loading={isLoading} />
+            <List dataSource={list || []}
+                  users={users || []}
+                  loading={isLoading}
+                  refresh={retry}
+            />
         </Container>
     );
 };

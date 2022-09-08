@@ -10,12 +10,10 @@ export const useUser = (param?: Partial<User>) => {
     const client = useRef(useHttp()).current; // 持久化 client
 
     useEffect(() => {
-        run(
-            client(
-                'users',
-                {data: cleanObject(param || {})}
-            )
-        );
+        run(() => client(
+            'users',
+            {data: cleanObject(param || {})}
+        ));
     }, [param, run, client]);
 
     return result;

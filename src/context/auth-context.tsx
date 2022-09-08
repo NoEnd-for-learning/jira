@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: ProviderProps) => {
     const logout = () => auth.logout().then(setUser);
 
     useEffect(() => {
-        runRef(bootstrapUser()); // 设置默认值
+        runRef(() => bootstrapUser()); // 设置默认值
     }, [runRef]);
 
     if(isIdle || isLoading) {

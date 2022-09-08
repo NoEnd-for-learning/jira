@@ -14,7 +14,7 @@ export const Register = ({onError}: {onError: (error: Error) => void}) => {
             onError(new Error('请确认两次输入的密码相同'));
             return;
         }
-        run(register({username, password}).catch(onError));
+        run(() => register({username, password}).catch(onError));
     }, [register, onError, run]);
 
     return (

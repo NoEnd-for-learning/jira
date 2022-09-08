@@ -10,7 +10,7 @@ export const Login = ({ onError }: {onError: (error: Error) => void}) => {
     const { run, isLoading } = useAsync(undefined, { throwOnError: true });
 
     const onSubmit = useCallback(({ username, password }: LoginOrRegisterInfo) => {
-        run(login({username, password}).catch(onError));
+        run(() => login({username, password}).catch(onError));
     }, [login, onError, run]);
 
     return (

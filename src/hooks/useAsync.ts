@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useState, useCallback, useRef} from 'react';
 
 interface State<D> {
     error: Error | null,
@@ -22,6 +22,7 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
         ...defaultInitialState,
         ...initialState,
     });
+    const [fn ,setFn] = useState<() => Promise<D>>();
 
     const setData = (data: D) => setState({
         data,
@@ -35,14 +36,18 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
         error,
     });
 
-    const run = (promise: Promise<D>) => {
-        if(!promise || !promise.then) {
-            throw new Error('请传入 Promise 类型数据');
+    const run = (request: () => Promise<D>) => {
+        if(typeof request !== 'function' || !request().then) {
+            throw new Error(`请传入 () => Promise<D> 类型函数`);
         }
 
         setState({...state, stat: 'loading'});
 
-        return promise.then((data) => {
+        return request().then((data) => {
+            // 这里的入参为【返回函数】的函数，因为当setState 的入参为一个函数时，react 会懒初始化，
+            // 即执行该入参函数，返回结果（函数）才是真正保存的数据.
+            // 编辑后刷新-useState的懒初始化与保存函数状态
+            setFn(() => () => request());
             setData(data);
             return data;
         }).catch(err => {
@@ -55,6 +60,11 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
         });
     };
 
+    const runRef = useRef(run).current;
+    const retry = useCallback(() => {
+        typeof fn === 'function' && runRef(fn);
+    }, [runRef, fn]);
+
     return {
         isIdle: state.stat === 'idle',
         isLoading: state.stat === 'loading',
@@ -63,6 +73,8 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
         run,
         setData,
         setError,
+        // retry 被调用时，重新调用一遍run 方法，更新state
+        retry,
         ...state,
     };
 };
