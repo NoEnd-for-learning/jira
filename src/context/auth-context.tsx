@@ -1,4 +1,4 @@
-import {createContext, useContext, useEffect, useRef} from 'react';
+import {createContext, useCallback, useContext, useEffect, useRef} from 'react';
 import * as auth from 'auth-provider';
 import { User, AuthForm, AuthCtxProps, ProviderProps } from 'interface';
 import { http } from 'utils/http';
@@ -9,7 +9,7 @@ const bootstrapUser = () => {
   let user = null;
   const token = auth.getToken();
   if(token) {
-      return  new Promise<any>((resolve, reject) => {
+      return new Promise<any>((resolve, reject) => {
           http('me', { token })
               .then(res => {
                   resolve(res?.user);
@@ -33,17 +33,16 @@ export const AuthProvider = ({ children }: ProviderProps) => {
         isError,
         run,
     } = useAsync<User | null>();
-    const runRef = useRef(run).current; // 持久化 run
 
-    const login = (form: AuthForm) =>
-        auth.login(form).then(r => setUser(r as User));
-    const register = (form: AuthForm) =>
-        auth.register(form).then(r => setUser(r as User));
-    const logout = () => auth.logout().then(setUser);
+    const login = useCallback((form: AuthForm) =>
+        auth.login(form).then(r => setUser(r as User)), [setUser]);
+    const register = useCallback((form: AuthForm) =>
+        auth.register(form).then(r => setUser(r as User)), [setUser]);
+    const logout = useCallback(() => auth.logout().then(setUser), [setUser]);
 
     useEffect(() => {
-        runRef(() => bootstrapUser()); // 设置默认值
-    }, [runRef]);
+        run(() => bootstrapUser()); // 设置默认值
+    }, [run]);
 
     if(isIdle || isLoading) {
         return <FullPageLoading />;

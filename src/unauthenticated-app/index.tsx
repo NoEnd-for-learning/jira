@@ -9,10 +9,10 @@ import right from 'assets/right.svg';
 import { useDocumentTitle } from 'hooks/useDocumentTitle';
 
 export const UnauthenticatedApp = () => {
+    useDocumentTitle('请登录注册以继续');
+
     const [isRegister, setRegister] = useState<boolean>(false);
     const [error, setError] = useState<Error | null>(null);
-
-    useDocumentTitle('请登录注册以继续');
 
     return (
         <Container className="unauthenticated-app">

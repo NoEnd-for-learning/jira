@@ -1,5 +1,5 @@
 import { useSearchParams, URLSearchParamsInit } from 'react-router-dom';
-import { useMemo, useState } from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import { cleanObject } from 'utils';
 
 /**
@@ -14,22 +14,22 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
 
     return [
         params,
-        (params: Partial<{ [key in K]: unknown }>) => {
+        useCallback((params: Partial<{ [key in K]: unknown }>) => {
             return setSearchParams(params);
-        },
+        }, [setSearchParams]),
     ] as const; // 注意 as const 的妙用
 };
 
 export const useSetUrlSearchParam = () => {
-    const [searchParams, setSearchParam] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     return [
         searchParams,
-        (params: { [key in string]: unknown }) => {
+        useCallback((params: { [key in string]: unknown }) => {
             const o = cleanObject({
                 ...Object.fromEntries(searchParams),
                 ...params,
             }) as URLSearchParamsInit;
-            return setSearchParam(o);
-        },
+            return setSearchParams(o);
+        }, [searchParams, setSearchParams]),
     ] as const;
 };

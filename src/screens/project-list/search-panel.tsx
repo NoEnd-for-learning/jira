@@ -32,6 +32,7 @@ export const SearchPanel = ({ param, setParam, users = [] }: Props) => {
                 <UserSelect
                     defaultOptionName={'负责人'}
                     value={param.personId}
+                    options={users || []}
                     onChange={(personId) => {
                         setParam({
                             ...param,

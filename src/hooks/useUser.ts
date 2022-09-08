@@ -1,20 +1,20 @@
 import { useAsync } from 'hooks/useAsync';
 import { User } from 'interface';
-import {useEffect, useRef} from 'react';
+import {useCallback, useEffect, useRef} from 'react';
 import { cleanObject } from 'utils';
 import { useHttp } from 'utils/http';
 
 export const useUser = (param?: Partial<User>) => {
-    const result = useAsync<User[]>();
-    const run = useRef(result.run).current; // 持久化 run
-    const client = useRef(useHttp()).current; // 持久化 client
+    const { run, ...result } = useAsync<User[]>();
+    const client = useHttp();
+    const fetchUser = useCallback(() => client(
+        'users',
+        {data: cleanObject(param || {})}
+    ), [client, param]);
 
     useEffect(() => {
-        run(() => client(
-            'users',
-            {data: cleanObject(param || {})}
-        ));
-    }, [param, run, client]);
+        run(fetchUser);
+    }, [run, fetchUser]);
 
     return result;
 };

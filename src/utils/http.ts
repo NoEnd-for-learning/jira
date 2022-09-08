@@ -2,6 +2,7 @@ import qs from 'qs';
 import { FetchConfig } from 'interface';
 import * as auth from 'auth-provider';
 import {useAuth} from 'context/auth-context';
+import {useCallback} from "react";
 
 const apiUrl = process.env['REACT_APP_API_URL'];
 
@@ -40,6 +41,6 @@ export const http = async (endpoint: string, { token, data, headers, ...customCo
 export const useHttp = () => {
   const { user } = useAuth();
   // 这里的 Parameters<typeof http> 等价于 [string, FetchConfig]
-  return (...[endpoint, config]: Parameters<typeof http>) =>
-      http(endpoint, {...config, token: user?.token});
+  return useCallback((...[endpoint, config]: Parameters<typeof http>) =>
+      http(endpoint, {...config, token: user?.token}), [user?.token]);
 };
