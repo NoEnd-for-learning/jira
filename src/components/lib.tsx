@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { HTMLAttributes } from 'react';
-import { Spin, Typography } from 'antd';
+import { Spin, Typography, Button } from 'antd';
 
 interface P extends HTMLAttributes<any>{
     gap?: number | boolean | undefined,
@@ -52,3 +52,7 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
     }
     return null;
 };
+
+export const ButtonNoPadding = styled(Button)`
+padding: 0;
+`;

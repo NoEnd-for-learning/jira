@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { Typography } from 'antd';
 import { useProject } from 'hooks/useProject';
@@ -8,7 +9,7 @@ import { useUrlQueryParam } from 'hooks/useUrlQueryParam';
 import { List } from './list';
 import { SearchPanel } from './search-panel';
 import { toNumber } from 'utils';
-import {useMemo} from "react";
+import { ButtonNoPadding, StyledRow } from 'components/lib';
 
 const useProjectSearchParams = () => {
     const [param, setParam] = useUrlQueryParam(['name', 'personId']);
@@ -19,7 +20,7 @@ const useProjectSearchParams = () => {
     ] as const;
 };
 
-export const ProjectListScreen = () => {
+export const ProjectListScreen = (props: { setProjectModalOpen: (isOpen: boolean) => void }) => {
     useDocumentTitle('项目列表');
 
     const [param, setParam] = useProjectSearchParams();
@@ -29,7 +30,12 @@ export const ProjectListScreen = () => {
 
     return (
         <Container>
-            <h1>项目列表</h1>
+            <StyledRow marginBottom={2} between={true}>
+                <h1>项目列表</h1>
+                <ButtonNoPadding onClick={() => props.setProjectModalOpen(true)} type="link">
+                    创建项目
+                </ButtonNoPadding>
+            </StyledRow>
             <SearchPanel param={param}
                          setParam={setParam}
                          users={users || []}
@@ -39,6 +45,7 @@ export const ProjectListScreen = () => {
                   users={users || []}
                   loading={isLoading}
                   refresh={retry}
+                  setProjectModalOpen={props.setProjectModalOpen}
             />
         </Container>
     );

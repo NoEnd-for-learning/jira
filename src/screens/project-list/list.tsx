@@ -1,10 +1,11 @@
-import { Table, TableProps } from 'antd';
+import {Dropdown, Menu, Table, TableProps} from 'antd';
 import { useCallback } from 'react';
 import dayjs from 'dayjs';
 import { Project } from 'interface';
 // react-router 跟 react-router-dom 的关系类似react（生产方） 跟react-dom（消费方） 的关系
 import { Link } from 'react-router-dom';
 import { Pin } from 'components/pin';
+import { ButtonNoPadding } from 'components/lib';
 import { useEditProject } from 'hooks/useProject';
 
 interface User {
@@ -14,6 +15,7 @@ interface User {
 interface Props extends TableProps<Project>{
     users: User[],
     refresh?: () => void,
+    setProjectModalOpen: (isOpen: boolean) => void,
 }
 
 export const List = ({users = [], ...props}: Props) => {
@@ -62,7 +64,24 @@ export const List = ({users = [], ...props}: Props) => {
                        title: '创建时间',
                        dataIndex: 'created',
                        render: (text, record, index) => text ? dayjs(text).format('YYYY-MM-DD') : '无'
-                   }
+                   },
+                   {
+                       title: '',
+                       render: (text, record, index) => {
+                           return (
+                             <Dropdown overlay={<Menu>
+                                 <Menu.Item key="edit">
+                                     <ButtonNoPadding
+                                         type="link"
+                                         onClick={() => props.setProjectModalOpen(true)}
+                                     >编辑</ButtonNoPadding>
+                                 </Menu.Item>
+                             </Menu>}>
+                                 <ButtonNoPadding type="link">...</ButtonNoPadding>
+                             </Dropdown>
+                           );
+                       },
+                   },
                ]}
                {...props}
         />
