@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { Dropdown, Menu, Button } from 'antd';
-import { useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { StyledRow } from 'components/lib';
@@ -13,16 +12,14 @@ import { useAuth } from 'context/auth-context';
 import { resetRoute } from 'utils';
 
 export const AuthenticatedApp = () => {
-    const [projectModalOpen, setProjectModalOpen] = useState(false);
-
     return (
         <Container>
-            <PageHeader setProjectModalOpen={setProjectModalOpen} />
+            <PageHeader />
             <Main>
                 <Router>
                     <Routes>
                         <Route path="/projects" element={
-                            <ProjectListScreen setProjectModalOpen={setProjectModalOpen} />
+                            <ProjectListScreen />
                         } />
                         <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
                         {/* 默认路由 */}
@@ -30,11 +27,7 @@ export const AuthenticatedApp = () => {
                     </Routes>
                 </Router>
             </Main>
-            <ProjectModal visible={projectModalOpen}
-                          onClose={() => {
-                              setProjectModalOpen(false);
-                          }}
-            />
+            <ProjectModal />
         </Container>
     );
 };
@@ -93,14 +86,14 @@ const User = () => {
     );
 };
 
-const PageHeader = (props: { setProjectModalOpen: (isOpen: boolean) => void }) => {
+const PageHeader = () => {
     return (
         <Header between={true}>
             <HeaderLeft gap={true}>
                 <Button type="link" onClick={resetRoute}>
                     <SoftwareLogo width={'18rem'} color={'rgb(38, 132, 255)'} />
                 </Button>
-                <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} />
+                <ProjectPopover />
                 <StyledRow>用户</StyledRow>
             </HeaderLeft>
             <HeaderRight>

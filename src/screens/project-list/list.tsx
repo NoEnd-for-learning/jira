@@ -1,4 +1,4 @@
-import {Dropdown, Menu, Table, TableProps} from 'antd';
+import {Button, Dropdown, Menu, Table, TableProps} from 'antd';
 import { useCallback } from 'react';
 import dayjs from 'dayjs';
 import { Project } from 'interface';
@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import { Pin } from 'components/pin';
 import { ButtonNoPadding } from 'components/lib';
 import { useEditProject } from 'hooks/useProject';
+import { useDispatch } from 'react-redux';
+import { projectListActions } from 'store/project-list.slice';
 
 interface User {
     id: number,
@@ -15,7 +17,6 @@ interface User {
 interface Props extends TableProps<Project>{
     users: User[],
     refresh?: () => void,
-    setProjectModalOpen: (isOpen: boolean) => void,
 }
 
 export const List = ({users = [], ...props}: Props) => {
@@ -29,6 +30,7 @@ export const List = ({users = [], ...props}: Props) => {
                 props?.refresh();
             }
         }); // 柯里化
+    const dispatch = useDispatch();
 
     return (
         <Table pagination={false}
@@ -69,14 +71,17 @@ export const List = ({users = [], ...props}: Props) => {
                        title: '',
                        render: (text, record, index) => {
                            return (
-                             <Dropdown overlay={<Menu>
-                                 <Menu.Item key="edit">
-                                     <ButtonNoPadding
-                                         type="link"
-                                         onClick={() => props.setProjectModalOpen(true)}
-                                     >编辑</ButtonNoPadding>
-                                 </Menu.Item>
-                             </Menu>}>
+                             <Dropdown overlay={<Menu items={[
+                                 {
+                                     label: (
+                                         <ButtonNoPadding
+                                             type="link"
+                                             onClick={() => dispatch(projectListActions.open({}))}
+                                         >编辑</ButtonNoPadding>
+                                     ),
+                                     key: 'edit'
+                                 }
+                             ]} />}>
                                  <ButtonNoPadding type="link">...</ButtonNoPadding>
                              </Dropdown>
                            );
