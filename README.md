@@ -129,5 +129,9 @@ https://www.npmjs.com/package/helmet
 
 https://www.npmjs.com/package/why-did-you-render
 
+https://www.npmjs.com/package/react-query
+
+https://www.npmjs.com/package/swr
+
 
 ```

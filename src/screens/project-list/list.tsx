@@ -68,14 +68,15 @@ export const List = ({users = [], ...props}: Props) => {
                        title: '',
                        render: (text, record, index) => {
                            return (
-                             <Dropdown overlay={<Menu>
-                                 <Menu.Item key="edit">
-                                     <ButtonNoPadding
+                             <Dropdown overlay={<Menu items={[
+                                 {
+                                     label: <ButtonNoPadding
                                          type="link"
                                          onClick={() => {}}
-                                     >编辑</ButtonNoPadding>
-                                 </Menu.Item>
-                             </Menu>}>
+                                     >编辑</ButtonNoPadding>,
+                                     key: 'edit',
+                                 }
+                             ]} />}>
                                  <ButtonNoPadding type="link">...</ButtonNoPadding>
                              </Dropdown>
                            );

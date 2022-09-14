@@ -14,21 +14,18 @@ import { resetRoute } from 'utils';
 export const AuthenticatedApp = () => {
     return (
         <Container>
-            {/* Router 必须在最外层包裹children组件 */}
-            <Router>
-                <PageHeader />
-                <Main>
-                    <Routes>
-                        <Route path="/projects" element={
-                            <ProjectListScreen />
-                        } />
-                        <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
-                        {/* 默认路由 */}
-                        <Route path="/*" element={<Navigate to="projects" />} />
-                    </Routes>
-                </Main>
-                <ProjectModal />
-            </Router>
+            <PageHeader />
+            <Main>
+                <Routes>
+                    <Route path="/projects" element={
+                        <ProjectListScreen />
+                    } />
+                    <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
+                    {/* 默认路由 */}
+                    <Route path="/*" element={<Navigate to="projects" />} />
+                </Routes>
+            </Main>
+            <ProjectModal />
         </Container>
     );
 };

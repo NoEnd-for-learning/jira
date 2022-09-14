@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import styled from '@emotion/styled';
-import { Typography } from 'antd';
 import { useProject } from 'hooks/useProject';
 import { useUser } from 'hooks/useUser';
 import { useDebounce } from 'hooks/useDebounce';
@@ -10,7 +9,7 @@ import { useProjectModal } from 'hooks/useProjectModal';
 import { List } from 'screens/project-list/list';
 import { SearchPanel } from 'screens/project-list/search-panel';
 import { toNumber } from 'utils';
-import { ButtonNoPadding, StyledRow } from 'components/lib';
+import { ButtonNoPadding, StyledRow, ErrorBox } from 'components/lib';
 
 const useProjectSearchParams = () => {
     const [param, setParam] = useUrlQueryParam(['name', 'personId']);
@@ -26,7 +25,7 @@ export const ProjectListScreen = () => {
 
     const [param, setParam] = useProjectSearchParams();
     const debounceParam = useDebounce(param, 200);
-    const { isLoading, error, data: list, retry } = useProject(debounceParam);
+    const { isLoading, error, data: list } = useProject(debounceParam);
     const { data: users } = useUser();
     const { open } = useProjectModal();
 
@@ -42,11 +41,10 @@ export const ProjectListScreen = () => {
                          setParam={setParam}
                          users={users || []}
             />
-            {error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
+            <ErrorBox error={error} />
             <List dataSource={list || []}
                   users={users || []}
                   loading={isLoading}
-                  refresh={retry}
             />
         </Container>
     );
