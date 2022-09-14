@@ -6,8 +6,9 @@ import { useUser } from 'hooks/useUser';
 import { useDebounce } from 'hooks/useDebounce';
 import { useDocumentTitle } from 'hooks/useDocumentTitle';
 import { useUrlQueryParam } from 'hooks/useUrlQueryParam';
-import { List } from './list';
-import { SearchPanel } from './search-panel';
+import { useProjectModal } from 'hooks/useProjectModal';
+import { List } from 'screens/project-list/list';
+import { SearchPanel } from 'screens/project-list/search-panel';
 import { toNumber } from 'utils';
 import { ButtonNoPadding, StyledRow } from 'components/lib';
 
@@ -20,19 +21,20 @@ const useProjectSearchParams = () => {
     ] as const;
 };
 
-export const ProjectListScreen = (props: { setProjectModalOpen: (isOpen: boolean) => void }) => {
+export const ProjectListScreen = () => {
     useDocumentTitle('项目列表');
 
     const [param, setParam] = useProjectSearchParams();
     const debounceParam = useDebounce(param, 200);
     const { isLoading, error, data: list, retry } = useProject(debounceParam);
     const { data: users } = useUser();
+    const { open } = useProjectModal();
 
     return (
         <Container>
             <StyledRow marginBottom={2} between={true}>
                 <h1>项目列表</h1>
-                <ButtonNoPadding onClick={() => props.setProjectModalOpen(true)} type="link">
+                <ButtonNoPadding onClick={open} type="link">
                     创建项目
                 </ButtonNoPadding>
             </StyledRow>
@@ -45,7 +47,6 @@ export const ProjectListScreen = (props: { setProjectModalOpen: (isOpen: boolean
                   users={users || []}
                   loading={isLoading}
                   refresh={retry}
-                  setProjectModalOpen={props.setProjectModalOpen}
             />
         </Container>
     );
