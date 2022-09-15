@@ -1,12 +1,12 @@
 import { Popover, Typography, List, Divider } from 'antd';
 import styled from '@emotion/styled';
-import { useProject } from 'hooks/useProject';
+import { useProjects } from 'hooks/useProjects';
 import { useProjectModal } from 'hooks/useProjectModal';
 import { ButtonNoPadding } from 'components/lib';
 
 export const ProjectPopover = () => {
     const { open } = useProjectModal();
-    const { data: projects } = useProject();
+    const { data: projects } = useProjects();
     const pinnedProjects = projects?.filter(project => project.pin);
     const content = <ContentContainer>
         <Typography.Text type="secondary">收藏项目</Typography.Text>

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import styled from '@emotion/styled';
-import { useProject } from 'hooks/useProject';
+import { useProjects } from 'hooks/useProjects';
 import { useUser } from 'hooks/useUser';
 import { useDebounce } from 'hooks/useDebounce';
 import { useDocumentTitle } from 'hooks/useDocumentTitle';
@@ -25,7 +25,7 @@ export const ProjectListScreen = () => {
 
     const [param, setParam] = useProjectSearchParams();
     const debounceParam = useDebounce(param, 200);
-    const { isLoading, error, data: list } = useProject(debounceParam);
+    const { isLoading, error, data: list } = useProjects(debounceParam);
     const { data: users } = useUser();
     const { open } = useProjectModal();
 

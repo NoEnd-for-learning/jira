@@ -6,7 +6,8 @@ import { Project } from 'interface';
 import { Link } from 'react-router-dom';
 import { Pin } from 'components/pin';
 import { ButtonNoPadding } from 'components/lib';
-import { useEditProject } from 'hooks/useProject';
+import { useEditProject, useDeleteProject } from 'hooks/useProjects';
+import { useProjectModal } from 'hooks/useProjectModal';
 
 interface User {
     id: number,
@@ -22,12 +23,11 @@ export const List = ({users = [], ...props}: Props) => {
         return a[key].localeCompare(b[key]);
     }, []);
     const { mutate } = useEditProject();
-    const pinProject = (id: number) => (pin: boolean) => mutate({id, pin})
-        .then(() => {
-            if(props?.refresh) {
-                props?.refresh();
-            }
-        }); // 柯里化
+    const { startEdit } = useProjectModal();
+    const { mutate: deleteMutate } = useDeleteProject();
+    const pinProject = (id: number) => (pin: boolean) => mutate({id, pin}); // 柯里化
+    const editProject = (id: number) => startEdit(id);
+    const deleteProject = (id: number) => deleteMutate({id});
 
     return (
         <Table pagination={false}
@@ -72,9 +72,16 @@ export const List = ({users = [], ...props}: Props) => {
                                  {
                                      label: <ButtonNoPadding
                                          type="link"
-                                         onClick={() => {}}
+                                         onClick={() => editProject(record.id)}
                                      >编辑</ButtonNoPadding>,
                                      key: 'edit',
+                                 },
+                                 {
+                                     label: <ButtonNoPadding
+                                         type="link"
+                                         onClick={() => deleteProject(record.id)}
+                                     >删除</ButtonNoPadding>,
+                                     key: 'delete',
                                  }
                              ]} />}>
                                  <ButtonNoPadding type="link">...</ButtonNoPadding>

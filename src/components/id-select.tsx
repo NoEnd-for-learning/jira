@@ -7,8 +7,8 @@ type SelectProps = ComponentProps<typeof Select>;
 
 // Omit 处理，避免类型冲突
 interface IdSelectProps extends Omit<SelectProps, 'value' | 'onChange' | 'options'> {
-    value: Raw | null | undefined,
-    onChange: (value?: number) => void,
+    value?: Raw | null | undefined,
+    onChange?: (value?: number) => void,
     defaultOptionName?: string,
     options?: {name: string, id: number}[],
 }
@@ -26,7 +26,7 @@ export const IdSelect = (props: IdSelectProps) => {
         <Select
             {...otherProps}
             value={options?.length ? toNumber(value) : DEFAULT_VALUE}
-            onChange={(v) => onChange(toNumber(v) || undefined)}
+            onChange={(v) => onChange?.(toNumber(v) || undefined)}
         >
             {
                 defaultOptionName ? (
