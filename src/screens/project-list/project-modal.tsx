@@ -1,4 +1,4 @@
-import { ComponentProps, useEffect, useRef } from 'react';
+import {ComponentProps, useCallback, useEffect, useRef} from 'react';
 import { Drawer, Button, Spin, Form, Input } from 'antd';
 import { useProjectModal } from 'hooks/useProjectModal';
 import { useAddProject, useEditProject, useProjectsQueryKey } from 'hooks/useProjects';
@@ -15,14 +15,15 @@ export const ProjectModal = (props: ComponentProps<typeof Drawer>) => {
 
     const useMutateProject = editingProject ? useEditProject : useAddProject;
     const { mutateAsync, error, isLoading: mutateLoading } = useMutateProject(useProjectsQueryKey());
+    const closeModal = useCallback(() => {
+        form.resetFields();
+        close();
+    }, [form, close]);
     const onFinish = (values: any) => {
         mutateAsync({
             ...editingProject,
             ...values
-        }).then(() => {
-            form.resetFields();
-            close();
-        });
+        }).then(closeModal);
     };
 
     const title = editingProject ? '编辑项目' : '创建项目';
@@ -38,7 +39,7 @@ export const ProjectModal = (props: ComponentProps<typeof Drawer>) => {
         <Drawer {...props}
                 width={'100%'}
                 visible={visible}
-                onClose={close}
+                onClose={closeModal}
         >
             <Container>
                 {

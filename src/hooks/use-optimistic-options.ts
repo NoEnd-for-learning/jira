@@ -1,6 +1,6 @@
 import { QueryKey, useQueryClient } from 'react-query';
 import { reorder } from 'utils/reorder';
-import { Task } from 'types/task';
+import { Task } from 'interface/task';
 
 export const useConfig = (
   queryKey: QueryKey,

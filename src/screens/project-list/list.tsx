@@ -1,7 +1,6 @@
 import {Dropdown, Menu, Table, TableProps} from 'antd';
 import { useCallback } from 'react';
 import dayjs from 'dayjs';
-import { Project } from 'interface';
 // react-router 跟 react-router-dom 的关系类似react（生产方） 跟react-dom（消费方） 的关系
 import { Link } from 'react-router-dom';
 import { Pin } from 'components/pin';
@@ -9,6 +8,7 @@ import { ButtonNoPadding } from 'components/lib';
 import { useEditProject, useDeleteProject } from 'hooks/useProjects';
 import { useProjectModal } from 'hooks/useProjectModal';
 import { useProjectsQueryKey } from 'hooks/useProjects';
+import { Project } from 'interface/project';
 
 interface User {
     id: number,

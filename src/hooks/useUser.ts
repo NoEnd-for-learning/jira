@@ -1,8 +1,8 @@
 import { useAsync } from 'hooks/useAsync';
-import { User } from 'interface';
-import {useCallback, useEffect, useRef} from 'react';
+import { useCallback, useEffect } from 'react';
 import { cleanObject } from 'utils';
 import { useHttp } from 'utils/http';
+import { User } from 'interface/user';
 
 export const useUser = (param?: Partial<User>) => {
     const { run, ...result } = useAsync<User[]>();

@@ -1,15 +1,5 @@
 import { PropsWithChildren } from 'react';
-import {Param} from "../screens/project-list/search-panel";
-
-export interface User {
-    id: number,
-    name: string,
-    title: string,
-    email: string,
-    organization: string,
-    passwordHash: string,
-    token: string,
-}
+import { User } from 'interface/user';
 
 export interface AuthForm {
     username: string,
@@ -32,17 +22,10 @@ export interface FetchConfig extends RequestInit {
     data?: object,
 }
 
-export interface Project extends Param {
-    // name: string,
-    // personId: number,
-    id: number,
-    pin: boolean,
-    organization: string,
-    created: number,
-}
-
 export interface LoginOrRegisterInfo {
     username: string,
     password: string,
     cpassword: string,
 }
+
+export type Raw = string | number;

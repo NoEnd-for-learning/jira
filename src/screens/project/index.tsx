@@ -16,7 +16,7 @@ export const ProjectScreen = () => {
                 <Route path="/epic" element={<Epic/>} />
 
                 {/* 默认路由 */}
-                <Route path="/*" element={<Navigate to="dashboard" />} />
+                <Route path="/*" element={<Navigate to="dashboard" replace={true} />} />
             </Routes>
         </div>
     );

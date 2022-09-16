@@ -135,3 +135,15 @@ https://www.npmjs.com/package/swr
 
 
 ```
+
+### 跨组件状态管理总结
+```text
+小场面：
+·状态提升/组合组件
+
+缓存状态：
+·react-query / swr
+
+客户端状态：
+·url / redux / context
+```

@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import { Project } from 'interface';
 import { cleanObject } from 'utils';
 import { useHttp } from 'utils/http';
-import { useMutation, useQuery, useQueryClient, QueryKey } from 'react-query';
+import { useMutation, useQuery, QueryKey } from 'react-query';
 import { useUrlQueryParam } from 'hooks/useUrlQueryParam';
 import { useEditConfig, useAddConfig, useDeleteConfig } from 'hooks/use-optimistic-options';
+import { Project } from 'interface/project';
 
 const URL_PREFIX = 'projects'
 

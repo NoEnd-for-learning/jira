@@ -1,6 +1,7 @@
-import { Select, Input, Form } from 'antd';
-import { User, Project} from 'interface';
+import { Input, Form } from 'antd';
 import { UserSelect } from 'components/user-select';
+import { Project } from 'interface/project';
+import { User } from 'interface/user';
 
 export interface Param {
     name: string,

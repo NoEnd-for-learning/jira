@@ -1,5 +1,7 @@
-import { User, AuthForm } from 'interface';
 import { http } from 'utils/http';
+import { AuthForm } from 'interface';
+import { User } from 'interface/user';
+
 // 模拟登录认证
 // 在真实环境中，如果使用了 firebase 这种第三方auth 服务的话，本文件不需要开发者手动创建
 const localStorageKey = '__auth_provider_token__';

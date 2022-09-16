@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react';
-import { Raw } from 'types';
 import { toNumber } from 'utils';
 import { Select } from 'antd';
+import { Raw } from 'interface';
 
 type SelectProps = ComponentProps<typeof Select>;
 

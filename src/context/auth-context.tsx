@@ -1,9 +1,11 @@
-import {createContext, useCallback, useContext, useEffect, useRef} from 'react';
-import * as auth from 'auth-provider';
-import { User, AuthForm, AuthCtxProps, ProviderProps } from 'interface';
+import { createContext, useCallback, useContext, useEffect } from 'react';
+import { useQueryClient } from 'react-query';
+import { AuthForm, AuthCtxProps, ProviderProps } from 'interface';
 import { http } from 'utils/http';
 import {useAsync} from 'hooks/useAsync';
+import * as auth from 'auth-provider';
 import { FullPageLoading, FullPageErrorFallback } from 'components/lib';
+import {User} from 'interface/user';
 
 const bootstrapUser = () => {
   let user = null;
@@ -33,12 +35,16 @@ export const AuthProvider = ({ children }: ProviderProps) => {
         isError,
         run,
     } = useAsync<User | null>();
+    const queryClient = useQueryClient();
 
     const login = useCallback((form: AuthForm) =>
         auth.login(form).then(r => setUser(r as User)), [setUser]);
     const register = useCallback((form: AuthForm) =>
         auth.register(form).then(r => setUser(r as User)), [setUser]);
-    const logout = useCallback(() => auth.logout().then(setUser), [setUser]);
+    const logout = useCallback(() => auth.logout().then(() => {
+        setUser(null);
+        queryClient.clear();
+    }), [setUser, queryClient]);
 
     useEffect(() => {
         run(() => bootstrapUser()); // 设置默认值

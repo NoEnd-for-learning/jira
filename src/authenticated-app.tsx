@@ -22,7 +22,7 @@ export const AuthenticatedApp = () => {
                     } />
                     <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
                     {/* 默认路由 */}
-                    <Route path="/*" element={<Navigate to="projects" />} />
+                    <Route path="/*" element={<Navigate to="projects" replace={true} />} />
                 </Routes>
             </Main>
             <ProjectModal />
