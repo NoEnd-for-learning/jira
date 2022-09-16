@@ -11,3 +11,8 @@ export interface Task {
     typeId: number;
     note: string;
 }
+
+export interface TaskType {
+    id: number,
+    name: string,
+}

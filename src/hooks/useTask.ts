@@ -1,5 +1,5 @@
 import {useQuery} from "react-query";
-import {Task} from "interface/task";
+import {Task, TaskType} from "interface/task";
 import {useHttp} from "utils/http";
 import {cleanObject} from "utils";
 
@@ -14,4 +14,12 @@ export const useTasks = (param?: Partial<Task>) => {
                 data: param,
             });
         });
+};
+
+export const useTaskTypes = () => {
+    const client = useHttp();
+
+    return useQuery<TaskType[]>(['taskTypes'], () =>
+        client('taskTypes')
+    );
 };

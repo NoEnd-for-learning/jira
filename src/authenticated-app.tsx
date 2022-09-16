@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { Dropdown, Menu, Button } from 'antd';
 import { Navigate, Route, Routes } from 'react-router';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { StyledRow } from 'components/lib';
 import { ProjectPopover } from 'components/project-popover';
 import { ProjectListScreen } from 'screens/project-list';
