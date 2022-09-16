@@ -1,4 +1,4 @@
-import { useUrlQueryParam } from 'hooks/useUrlQueryParam';
+import { useUrlQueryParam, useSetUrlSearchParam } from 'hooks/useUrlQueryParam';
 import { useProject } from 'hooks/useProjects';
 
 export const useProjectModal = () => {
@@ -9,17 +9,13 @@ export const useProjectModal = () => {
         'editingProjectId',
     ]);
     const { data: editingProject, isLoading } = useProject(Number(editingProjectId));
+    const [, setSearchParams] = useSetUrlSearchParam();
 
     const open = () => setProjectCreate({projectCreate: true});
-    const close = () => {
-        if(editingProjectId) {
-            setProjectCreate({projectCreate: undefined});
-            setEditingProjectId({editingProjectId: undefined});
-        } else {
-            setEditingProjectId({editingProjectId: undefined});
-            setProjectCreate({projectCreate: undefined});
-        }
-    }
+    const close = () => setSearchParams({
+        projectCreate: undefined,
+        editingProjectId: undefined,
+    });
     const startEdit = (id: number) => setEditingProjectId({editingProjectId: id});
 
     return {

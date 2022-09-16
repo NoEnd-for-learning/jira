@@ -1,7 +1,10 @@
+import { useMemo } from 'react';
 import { Project } from 'interface';
 import { cleanObject } from 'utils';
 import { useHttp } from 'utils/http';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient, QueryKey } from 'react-query';
+import { useUrlQueryParam } from 'hooks/useUrlQueryParam';
+import { useEditConfig, useAddConfig, useDeleteConfig } from 'hooks/use-optimistic-options';
 
 const URL_PREFIX = 'projects'
 
@@ -29,7 +32,7 @@ export const useProjects = (param?: Partial<Project>) => {
         });
 };
 
-export const useEditProject = () => {
+export const useEditProject = (queryKey: QueryKey) => {
     // const { run, ...result } = useAsync();
     // const client = useHttp();
     // const mutate = useCallback((params: Partial<Project>) => {
@@ -44,18 +47,17 @@ export const useEditProject = () => {
     // };
 
     const client = useHttp();
-    const queryClient = useQueryClient();
-    return useMutation((params: Partial<Project>) => {
-        return client(`${URL_PREFIX}/${params.id}`, {
-            data: params,
-            method: 'PATCH',
-        });
-    }, {
-        onSuccess: () => queryClient.invalidateQueries(URL_PREFIX),
-    });
+    return useMutation(
+        (params: Partial<Project>) =>
+            client(`${URL_PREFIX}/${params.id}`, {
+                data: params,
+                method: 'PATCH',
+            }),
+        useEditConfig(queryKey)
+    );
 };
 
-export const useAddProject = () => {
+export const useAddProject = (queryKey: QueryKey) => {
     // const { run, ...result } = useAsync();
     // const client = useHttp();
     // const mutate = useCallback((params: Partial<Project>) => {
@@ -70,30 +72,27 @@ export const useAddProject = () => {
     // };
 
     const client = useHttp();
-    const queryClient = useQueryClient();
-    return useMutation((params: Partial<Project>) => {
-        return client(`${URL_PREFIX}`, {
-            data: {
-                created: new Date().getTime(),
-                ...params,
-            },
-            method: 'POST',
-        });
-    }, {
-        onSuccess: () => queryClient.invalidateQueries(URL_PREFIX),
-    });
+    return useMutation(
+        (params: Partial<Project>) =>
+            client(`${URL_PREFIX}`, {
+                data: {
+                    created: new Date().getTime(),
+                    ...params,
+                },
+                method: 'POST',
+            }),
+        useAddConfig(queryKey)
+    );
 };
 
-export const useDeleteProject = () => {
+export const useDeleteProject = (queryKey: QueryKey) => {
     const client = useHttp();
-    const queryClient = useQueryClient();
     return useMutation(
-        ({ id }: { id: number }) =>
-            client(`${URL_PREFIX}/${id}`, {
+        (params: Partial<Project>) =>
+            client(`${URL_PREFIX}/${params.id}`, {
                 method: 'DELETE',
-            }), {
-            onSuccess: () => queryClient.invalidateQueries(URL_PREFIX),
-        }
+            }),
+        useDeleteConfig(queryKey)
     );
 };
 
@@ -106,4 +105,21 @@ export const useProject = (id?: number) => {
             enabled: Boolean(id), // !!id
         },
     );
+};
+
+// 项目列表搜索的参数
+export const useProjectsSearchParams = () => {
+    const [param, setParam] = useUrlQueryParam(["name", "personId"]);
+    return [
+        useMemo(
+            () => ({ ...param, personId: Number(param.personId) || undefined }),
+            [param]
+        ),
+        setParam,
+    ] as const;
+};
+
+export const useProjectsQueryKey = () => {
+    const [params] = useProjectsSearchParams();
+    return [URL_PREFIX, params];
 };

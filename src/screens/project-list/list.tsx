@@ -8,6 +8,7 @@ import { Pin } from 'components/pin';
 import { ButtonNoPadding } from 'components/lib';
 import { useEditProject, useDeleteProject } from 'hooks/useProjects';
 import { useProjectModal } from 'hooks/useProjectModal';
+import { useProjectsQueryKey } from 'hooks/useProjects';
 
 interface User {
     id: number,
@@ -22,9 +23,9 @@ export const List = ({users = [], ...props}: Props) => {
     const sorter = useCallback((a: Project, b: Project, key: 'name' | 'organization') => {
         return a[key].localeCompare(b[key]);
     }, []);
-    const { mutate } = useEditProject();
+    const { mutate } = useEditProject(useProjectsQueryKey());
     const { startEdit } = useProjectModal();
-    const { mutate: deleteMutate } = useDeleteProject();
+    const { mutate: deleteMutate } = useDeleteProject(useProjectsQueryKey());
     const pinProject = (id: number) => (pin: boolean) => mutate({id, pin}); // 柯里化
     const editProject = (id: number) => startEdit(id);
     const deleteProject = (id: number) => deleteMutate({id});

@@ -1,12 +1,11 @@
 import { ComponentProps, useEffect, useRef } from 'react';
 import { Drawer, Button, Spin, Form, Input } from 'antd';
 import { useProjectModal } from 'hooks/useProjectModal';
-import { useAddProject, useEditProject } from 'hooks/useProjects';
+import { useAddProject, useEditProject, useProjectsQueryKey } from 'hooks/useProjects';
 import { useUser } from 'hooks/useUser';
 import { UserSelect } from 'components/user-select';
 import { ErrorBox } from 'components/lib';
-import styled from "@emotion/styled";
-
+import styled from '@emotion/styled';
 
 export const ProjectModal = (props: ComponentProps<typeof Drawer>) => {
     const [form] = Form.useForm();
@@ -15,7 +14,7 @@ export const ProjectModal = (props: ComponentProps<typeof Drawer>) => {
     const { visible, close, editingProject, isLoading } = useProjectModal();
 
     const useMutateProject = editingProject ? useEditProject : useAddProject;
-    const { mutateAsync, error, isLoading: mutateLoading } = useMutateProject();
+    const { mutateAsync, error, isLoading: mutateLoading } = useMutateProject(useProjectsQueryKey());
     const onFinish = (values: any) => {
         mutateAsync({
             ...editingProject,
