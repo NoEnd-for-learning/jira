@@ -4,7 +4,7 @@ import {Dashboard} from "interface/dashboard";
 import {useHttp} from "utils/http";
 import {cleanObject} from "utils";
 import {useProject} from "hooks/useProjects";
-import {useAddConfig} from "hooks/use-optimistic-options";
+import {useAddConfig, useDeleteConfig} from "hooks/use-optimistic-options";
 
 const URL_PREFIX = 'kanbans';
 
@@ -44,5 +44,15 @@ export const useAddDashboard = (queryKey: QueryKey) => {
                 method: 'POST',
             }),
         useAddConfig(queryKey)
+    );
+};
+
+export const useDeleteDashboard = (queryKey: QueryKey) => {
+    const client = useHttp();
+    return useMutation(
+        ({id}: {id: number}) => client(`${URL_PREFIX}/${id}`, {
+            method: 'DELETE'
+        }),
+        useDeleteConfig(queryKey),
     );
 };

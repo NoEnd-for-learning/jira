@@ -2,7 +2,7 @@ import {QueryKey, useMutation, useQuery} from "react-query";
 import {Task, TaskType} from "interface/task";
 import {useHttp} from "utils/http";
 import { useDebounce } from 'hooks/useDebounce';
-import {useAddConfig, useEditConfig} from "hooks/use-optimistic-options";
+import {useAddConfig, useDeleteConfig, useEditConfig} from "hooks/use-optimistic-options";
 import {useProjectIdInUrl} from "hooks/useDashboards";
 import {useUrlQueryParam} from "hooks/useUrlQueryParam";
 import {useCallback, useMemo} from "react";
@@ -104,3 +104,14 @@ export const useEditTask = (queryKey: QueryKey) => {
         useEditConfig(queryKey),
     );
 };
+
+export const useDeleteTask = (queryKey: QueryKey) => {
+    const client = useHttp();
+    return useMutation(
+        ({id}: {id: number}) => client(`${URL_PREFIX}/${id}`, {
+            method: 'DELETE'
+        }),
+        useDeleteConfig(queryKey),
+    );
+};
+

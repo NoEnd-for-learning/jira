@@ -1,11 +1,11 @@
-import {Form, Input, Modal, Spin} from 'antd';
-import {useTasksModal, useEditTask, useTasksQueryKey} from "hooks/useTask";
+import {Form, Input, Modal, Spin, Button} from 'antd';
+import {useTasksModal, useEditTask, useTasksQueryKey, useDeleteTask} from "hooks/useTask";
 import {ComponentProps, useCallback, useEffect, useRef} from "react";
-import {ErrorBox} from "../../components/lib";
-import {UserSelect} from "../../components/user-select";
+import {ErrorBox} from "components/lib";
+import {UserSelect} from "components/user-select";
+import {TaskTypeSelect} from "components/task-type-select";
 import styled from "@emotion/styled";
-import {useUser} from "../../hooks/useUser";
-import {TaskTypeSelect} from "../../components/task-type-select";
+import {useUser} from "hooks/useUser";
 
 const layout = {
     labelCol: {span: 8},
@@ -36,6 +36,17 @@ export const TaskModal = (props: ComponentProps<typeof Modal>) => {
             form.setFieldsValue(editingTask);
         }
     }, [form, editingTask]);
+
+    const { mutateAsync: deleteTask } = useDeleteTask(useTasksQueryKey());
+
+    const startDelete = useCallback(() => {
+        Modal.confirm({
+            okText: '确定',
+            cancelText: '取消',
+            title: '确定删除任务吗？',
+            onOk: () => deleteTask({id: Number(editingTaskId)}).then(close),
+        });
+    }, [close, deleteTask, editingTaskId]);
 
     return (
         <Modal {...props}
@@ -85,6 +96,9 @@ export const TaskModal = (props: ComponentProps<typeof Modal>) => {
                                     <TaskTypeSelect defaultOptionName="类型"/>
                                 </Form.Item>
                             </Form>
+                            <div style={{textAlign: 'right', width: '100%'}}>
+                                <Button size="small" style={{fontSize: '14px'}} onClick={startDelete}>删除</Button>
+                            </div>
                         </>
                     )
                 }
