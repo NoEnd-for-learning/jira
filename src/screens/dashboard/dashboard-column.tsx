@@ -1,7 +1,6 @@
 import { Card } from 'antd';
 import { Dashboard } from 'interface/dashboard';
-import {useTasks, useTaskTypes} from 'hooks/useTask';
-import { useTasksSearchParams } from 'hooks/useTask';
+import {useTasks, useTaskTypes, useTasksSearchParams, useTasksModal} from 'hooks/useTask';
 import taskIcon from 'assets/task.svg';
 import bugIcon from 'assets/bug.svg';
 import styled from "@emotion/styled";
@@ -19,13 +18,16 @@ const TaskTypeIcon = ({id}: {id: number}) => {
 export const DashboardColumn = ({dashboard}: {dashboard: Dashboard}) => {
     const { data: allTasks } = useTasks(useTasksSearchParams());
     const tasks = allTasks?.filter(t => t.kanbanId === dashboard.id);
-
+    const { startEdit } = useTasksModal();
     return (
         <Container>
             <h3>{dashboard.name}</h3>
             <TaskContainer>
                 {
-                    tasks?.map((t, index) => <TaskCard key={'dashboard' + index + t.id}>
+                    tasks?.map((t, index) => <TaskCard
+                        key={'dashboard' + index + t.id}
+                        onClick={() => startEdit(t.id)}
+                    >
                         <div>{t.name}</div>
                         <TaskTypeIcon id={t.typeId} />
                     </TaskCard>)
@@ -56,4 +58,5 @@ display: none;
 
 const TaskCard = styled(Card)`
 margin-bottom: 0.5rem;
+cursor: pointer;
 `;

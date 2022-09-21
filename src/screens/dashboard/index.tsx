@@ -4,6 +4,7 @@ import {useTasks, useTasksSearchParams} from 'hooks/useTask';
 import { DashboardColumn } from 'screens/dashboard/dashboard-column';
 import { SearchPanel } from 'screens/dashboard/search-panel';
 import { CreateDashBoard } from 'screens/dashboard/create-dashboard';
+import { TaskModal } from 'screens/dashboard/task-modal';
 import styled from '@emotion/styled';
 import { Spin } from 'antd';
 import { ScreenContainer } from 'components/lib';
@@ -29,6 +30,7 @@ export const Dashboard = () => {
                     </ColumnsContainer>
                 )
             }
+            <TaskModal />
         </ScreenContainer>
     );
 };

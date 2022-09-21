@@ -2,10 +2,10 @@ import {QueryKey, useMutation, useQuery} from "react-query";
 import {Task, TaskType} from "interface/task";
 import {useHttp} from "utils/http";
 import { useDebounce } from 'hooks/useDebounce';
-import {useAddConfig} from "hooks/use-optimistic-options";
+import {useAddConfig, useEditConfig} from "hooks/use-optimistic-options";
 import {useProjectIdInUrl} from "hooks/useDashboards";
 import {useUrlQueryParam} from "hooks/useUrlQueryParam";
-import {useMemo} from "react";
+import {useCallback, useMemo} from "react";
 
 const URL_PREFIX = 'tasks';
 
@@ -61,4 +61,46 @@ export const useTasksSearchParams = () => {
         tagId: Number(param.tagId) || undefined,
         name: param.name,
     }), [projectId, param]);
+};
+
+export const useTask = (id?: number) => {
+  const client = useHttp();
+  return useQuery<Task>(
+      [URL_PREFIX, {id}],
+      () => client(`${URL_PREFIX}/${id}`),
+      {
+          enabled: Boolean(id),
+      }
+  );
+};
+
+export const useTasksModal = () => {
+  const [{editingTaskId}, setEditingTaskId] = useUrlQueryParam(['editingTaskId']);
+  const { data: editingTask, isLoading } = useTask(Number(editingTaskId));
+  const startEdit = useCallback((id: number) => {
+      setEditingTaskId({editingTaskId: id});
+  }, [setEditingTaskId]);
+  const close = useCallback(() => {
+      setEditingTaskId({editingTaskId: undefined});
+  }, [setEditingTaskId]);
+
+  return {
+      editingTaskId,
+      editingTask,
+      isLoading,
+      startEdit,
+      close,
+  };
+};
+
+export const useEditTask = (queryKey: QueryKey) => {
+    const client = useHttp();
+    return useMutation(
+        (params: Partial<Task>) =>
+            client(`${URL_PREFIX}/${params.id}`, {
+                method: 'PATCH',
+                data: params,
+            }),
+        useEditConfig(queryKey),
+    );
 };

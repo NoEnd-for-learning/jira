@@ -22,8 +22,8 @@ export const useDashboards = (param?: Partial<Dashboard>) => {
 export const useProjectIdInUrl = () => {
     const { pathname } = useLocation();
     const id = pathname.match(/projects\/(\d+)/)?.[1];
-    return Number(id);
-    // return undefined;
+    // return Number(id);
+    return undefined;
 };
 
 export const useProjectInUrl = () => useProject(useProjectIdInUrl());

@@ -19,7 +19,7 @@ export const SearchPanel = () => {
             tagId: undefined,
             name: undefined,
         });
-    }, []);
+    }, [setSearchParams]);
 
     return <StyledRow marginBottom={4} gap={true}>
         <Input style={{width: '20rem'}}
