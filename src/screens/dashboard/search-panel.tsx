@@ -1,4 +1,4 @@
-import {useTasksSearchParams} from 'hooks/useDashboards';
+import {useTasksSearchParams} from 'hooks/useTask';
 import {useSetUrlSearchParam} from 'hooks/useUrlQueryParam';
 import {useUser} from 'hooks/useUser';
 import {useCallback} from 'react';

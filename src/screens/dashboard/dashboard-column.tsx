@@ -1,10 +1,11 @@
 import { Card } from 'antd';
 import { Dashboard } from 'interface/dashboard';
 import {useTasks, useTaskTypes} from 'hooks/useTask';
-import { useTasksSearchParams } from 'hooks/useDashboards';
+import { useTasksSearchParams } from 'hooks/useTask';
 import taskIcon from 'assets/task.svg';
 import bugIcon from 'assets/bug.svg';
 import styled from "@emotion/styled";
+import { CreateTask } from 'screens/dashboard/create-task';
 
 const TaskTypeIcon = ({id}: {id: number}) => {
     const {data: taskTypes} = useTaskTypes();
@@ -18,24 +19,24 @@ const TaskTypeIcon = ({id}: {id: number}) => {
 export const DashboardColumn = ({dashboard}: {dashboard: Dashboard}) => {
     const { data: allTasks } = useTasks(useTasksSearchParams());
     const tasks = allTasks?.filter(t => t.kanbanId === dashboard.id);
+
     return (
         <Container>
             <h3>{dashboard.name}</h3>
             <TaskContainer>
                 {
-                    tasks?.map(t => <TaskCard key={t.id}>
-                        <div>
-                            {t.name}
-                        </div>
+                    tasks?.map((t, index) => <TaskCard key={'dashboard' + index + t.id}>
+                        <div>{t.name}</div>
                         <TaskTypeIcon id={t.typeId} />
                     </TaskCard>)
                 }
+                <CreateTask kanbanId={dashboard.id} />
             </TaskContainer>
         </Container>
     );
 };
 
-const Container = styled.div`
+export const Container = styled.div`
 min-width: 27rem;
 border-radius: 6px;
 background-color: rgb(244, 245, 247);

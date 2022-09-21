@@ -1,7 +1,9 @@
+import { ScreenContainer } from 'components/lib';
+
 export const Epic = () => {
   return (
-      <div>
+      <ScreenContainer>
           Epic
-      </div>
+      </ScreenContainer>
   );
 };

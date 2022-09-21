@@ -9,7 +9,7 @@ import { useProjectModal } from 'hooks/useProjectModal';
 import { List } from 'screens/project-list/list';
 import { SearchPanel } from 'screens/project-list/search-panel';
 import { toNumber } from 'utils';
-import { ButtonNoPadding, StyledRow, ErrorBox } from 'components/lib';
+import { ButtonNoPadding, StyledRow, ErrorBox, ScreenContainer } from 'components/lib';
 
 const useProjectSearchParams = () => {
     const [param, setParam] = useUrlQueryParam(['name', 'personId']);
@@ -30,7 +30,7 @@ export const ProjectListScreen = () => {
     const { open } = useProjectModal();
 
     return (
-        <Container>
+        <ScreenContainer>
             <StyledRow marginBottom={2} between={true}>
                 <h1>项目列表</h1>
                 <ButtonNoPadding onClick={open} type="link">
@@ -46,10 +46,6 @@ export const ProjectListScreen = () => {
                   users={users || []}
                   loading={isLoading}
             />
-        </Container>
+        </ScreenContainer>
     );
 };
-
-const Container = styled.div`
-padding: 3.2rem;
-`;
