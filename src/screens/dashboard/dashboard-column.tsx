@@ -8,8 +8,9 @@ import { CreateTask } from 'screens/dashboard/create-task';
 import { Task } from 'interface/task';
 import { Mark } from 'components/mark';
 import { StyledRow } from 'components/lib';
+import { Drag, Drop, DropChild } from 'components/drag-and-drop';
 import {useDashboardsQueryKey, useDeleteDashboard} from 'hooks/useDashboards';
-import {useCallback} from "react";
+import {forwardRef, useCallback} from "react";
 
 const TaskTypeIcon = ({id}: {id: number}) => {
     const {data: taskTypes} = useTaskTypes();
@@ -20,23 +21,36 @@ const TaskTypeIcon = ({id}: {id: number}) => {
     return <img alt={"task-icon"} src={name === "task" ? taskIcon : bugIcon} width="18rem" />;
 };
 
-export const DashboardColumn = ({dashboard}: {dashboard: Dashboard}) => {
+export const DashboardColumn = forwardRef<HTMLDivElement, {dashboard: Dashboard}>((
+    {dashboard, ...props},
+    ref
+) => {
     const { data: allTasks } = useTasks(useTasksSearchParams());
     const tasks = allTasks?.filter(t => t.kanbanId === dashboard.id);
     return (
-        <Container>
+        <Container ref={ref} {...props}>
             <StyledRow between={true}>
                 <h3>{dashboard.name}</h3>
-                <More dashboard={dashboard} />
+                <More dashboard={dashboard} key={dashboard.id} />
             </StyledRow>
 
             <TaskContainer>
-                {tasks?.map((task) => <TaskCard task={task} key={'dashboard' + task.id} />)}
+                <Drop type="ROW" direction="vertical" droppableId={dashboard.id.toString()}>
+                    <DropChild style={{minHeight: 5}}>
+                        {tasks?.map((task, index) => (
+                            <Drag key={task.id} index={index} draggableId={'task' + task.id}>
+                                <div>
+                                    <TaskCard task={task} key={'task' + task.id} />
+                                </div>
+                            </Drag>
+                        ))}
+                    </DropChild>
+                </Drop>
                 <CreateTask kanbanId={dashboard.id} />
             </TaskContainer>
         </Container>
     );
-};
+});
 
 export const Container = styled.div`
 min-width: 27rem;

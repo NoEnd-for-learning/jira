@@ -6,6 +6,8 @@ import {useAddConfig, useDeleteConfig, useEditConfig} from "hooks/use-optimistic
 import {useProjectIdInUrl} from "hooks/useDashboards";
 import {useUrlQueryParam} from "hooks/useUrlQueryParam";
 import {useCallback, useMemo} from "react";
+import {SortProps} from "interface/dashboard";
+import {useReorderTaskConfig} from "hooks/use-optimistic-options";
 
 const URL_PREFIX = 'tasks';
 
@@ -115,3 +117,12 @@ export const useDeleteTask = (queryKey: QueryKey) => {
     );
 };
 
+export const useReorderTask = (queryKey: QueryKey) => {
+    const client = useHttp();
+    return useMutation((params: SortProps) => {
+        return client(`${URL_PREFIX}/reorder`, {
+            data: params,
+            method: "POST",
+        });
+    }, useReorderTaskConfig(queryKey));
+};

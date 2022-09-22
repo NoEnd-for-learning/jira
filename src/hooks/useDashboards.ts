@@ -1,10 +1,10 @@
 import {QueryKey, useMutation, useQuery} from "react-query";
 import {useLocation} from "react-router";
-import {Dashboard} from "interface/dashboard";
+import {Dashboard, SortProps} from "interface/dashboard";
 import {useHttp} from "utils/http";
 import {cleanObject} from "utils";
 import {useProject} from "hooks/useProjects";
-import {useAddConfig, useDeleteConfig} from "hooks/use-optimistic-options";
+import {useAddConfig, useDeleteConfig, useReorderDashboardConfig} from "hooks/use-optimistic-options";
 
 const URL_PREFIX = 'kanbans';
 
@@ -55,4 +55,14 @@ export const useDeleteDashboard = (queryKey: QueryKey) => {
         }),
         useDeleteConfig(queryKey),
     );
+};
+
+export const useReorderDashboard = (queryKey: QueryKey) => {
+    const client = useHttp();
+    return useMutation((params: SortProps) => {
+        return client(`${URL_PREFIX}/reorder`, {
+            data: params,
+            method: "POST",
+        });
+    }, useReorderDashboardConfig(queryKey));
 };
