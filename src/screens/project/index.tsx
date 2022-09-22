@@ -2,7 +2,7 @@ import { Routes, Route, Navigate, useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import styled from "@emotion/styled";
 import { Dashboard } from 'screens/dashboard';
-import { Epic } from 'screens/epic';
+import { EpicScreen } from 'screens/epic';
 import { Menu } from 'antd';
 
 const useRouteType = () => {
@@ -35,7 +35,7 @@ export const ProjectScreen = () => {
                     {/* /projects/:projectId/dashboard */}
                     <Route path="/dashboard" element={<Dashboard/>} />
                     {/* /projects/:projectId/epic */}
-                    <Route path="/epic" element={<Epic/>} />
+                    <Route path="/epic" element={<EpicScreen/>} />
 
                     {/* 默认路由 */}
                     <Route path="/*" element={<Navigate to="dashboard" replace={true} />} />
