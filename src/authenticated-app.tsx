@@ -3,6 +3,7 @@ import { Dropdown, Menu, Button } from 'antd';
 import { Navigate, Route, Routes } from 'react-router';
 import { StyledRow } from 'components/lib';
 import { ProjectPopover } from 'components/project-popover';
+import { UserPopover } from 'components/user-popover';
 import { ProjectListScreen } from 'screens/project-list';
 import { ProjectScreen } from 'screens/project';
 import { ProjectModal } from 'screens/project-list/project-modal';
@@ -92,7 +93,7 @@ const PageHeader = () => {
                     <SoftwareLogo width={'18rem'} color={'rgb(38, 132, 255)'} />
                 </Button>
                 <ProjectPopover />
-                <StyledRow>用户</StyledRow>
+                <UserPopover />
             </HeaderLeft>
             <HeaderRight>
                 <User />

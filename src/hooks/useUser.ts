@@ -1,20 +1,17 @@
-import { useAsync } from 'hooks/useAsync';
-import { useCallback, useEffect } from 'react';
 import { cleanObject } from 'utils';
 import { useHttp } from 'utils/http';
 import { User } from 'interface/user';
+import {useQuery} from "react-query";
+
+const URL_PREFIX = 'users'
 
 export const useUser = (param?: Partial<User>) => {
-    const { run, ...result } = useAsync<User[]>();
     const client = useHttp();
-    const fetchUser = useCallback(() => client(
-        'users',
-        {data: cleanObject(param || {})}
-    ), [client, param]);
-
-    useEffect(() => {
-        run(fetchUser);
-    }, [run, fetchUser]);
-
-    return result;
+    return useQuery<User[], Error>(
+        [URL_PREFIX, cleanObject(param || {})],
+        () => {
+            return client(URL_PREFIX, {
+                data: param,
+            });
+        });
 };

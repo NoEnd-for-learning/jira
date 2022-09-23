@@ -13,7 +13,7 @@ export const CreateEpic = (props: Pick<DrawerProps, 'visible'> & {onClose: () =>
     const closeModal = useCallback(() => {
         form.resetFields();
         props?.onClose();
-    }, [form, props?.onClose]);
+    }, [form, props]);
     const onFinish = (values: any) => {
         addEpic(values).then(closeModal);
     };
