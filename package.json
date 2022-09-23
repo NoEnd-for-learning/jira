@@ -26,7 +26,9 @@
     "test": "craco test",
     "eject": "react-scripts eject",
     "prepare": "husky install",
-    "json-server": "json-server ./__json_server_mock__/db.json --watch --port 4000 --middlewares ./__json_server_mock__/middlewares.js"
+    "json-server": "json-server ./__json_server_mock__/db.json --watch --port 4000 --middlewares ./__json_server_mock__/middlewares.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build -r git@github.com:NoEnd-for-learning/NoEnd-for-learning.github.io.git -b main"
   },
   "eslintConfig": {
     "rules": {
@@ -59,6 +61,7 @@
     "craco-antd": "^2.0.0",
     "dayjs": "^1.11.5",
     "eslint-config-prettier": "6.15.0",
+    "gh-pages": "^4.0.0",
     "husky": "6.0.0",
     "jira-dev-tool": "file:__jira-dev-tool__",
     "json-server": "^0.17.0",
