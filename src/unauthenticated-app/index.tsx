@@ -8,7 +8,7 @@ import left from 'assets/left.svg';
 import right from 'assets/right.svg';
 import { useDocumentTitle } from 'hooks/useDocumentTitle';
 
-export default () => {
+const UnauthenticatedApp = () => {
     useDocumentTitle('请登录注册以继续');
 
     const [isRegister, setRegister] = useState<boolean>(false);
@@ -39,6 +39,8 @@ export default () => {
         </Container>
     );
 };
+
+export default UnauthenticatedApp;
 
 const Container = styled.div`
 display: flex;

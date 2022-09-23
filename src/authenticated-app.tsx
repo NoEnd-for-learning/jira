@@ -11,7 +11,7 @@ import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg';
 import { useAuth } from 'context/auth-context';
 import { resetRoute } from 'utils';
 
-export default () => {
+const AuthenticatedApp = () => {
     return (
         <Container>
             <PageHeader />
@@ -101,3 +101,5 @@ const PageHeader = () => {
         </Header>
     );
 };
+
+export default AuthenticatedApp;

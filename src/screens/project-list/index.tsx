@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import styled from '@emotion/styled';
 import { useProjects } from 'hooks/useProjects';
 import { useUser } from 'hooks/useUser';
 import { useDebounce } from 'hooks/useDebounce';
