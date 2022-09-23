@@ -10,6 +10,9 @@ const server = setupServer();
 // beforeAll 代表执行所有的测试之前，先来执行一下回调函数
 beforeAll(() => server.listen());
 
+// 每个测试跑完，重置mock 路由
+afterAll(() => server.resetHandlers());
+
 // 所有的测试跑完后，关闭mock 路由
 afterAll(() => server.close());
 

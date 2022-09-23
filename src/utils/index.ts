@@ -2,6 +2,9 @@
 export const isVoid = (v: any): boolean => [undefined, null, ''].includes(v);
 
 export const cleanObject = (obj: {[key: string]: unknown}): object => {
+  if(!obj) {
+    return {};
+  }
   const result = {...obj};
   Object.keys(obj).forEach((key) => {
     const value = obj[key];

@@ -1,9 +1,10 @@
 import {Button, Drawer, Form, Input, Spin} from 'antd';
-import { DrawerProps } from 'antd/es/drawer';
 import styled from "@emotion/styled";
 import {ErrorBox} from "components/lib";
 import {useAddEpic, useEpicsQueryKey} from "hooks/useEpic";
-import {useCallback, useEffect, useRef} from "react";
+import {useCallback, useEffect, useRef, ComponentProps} from "react";
+
+type DrawerProps = ComponentProps<typeof Drawer>;
 
 export const CreateEpic = (props: Pick<DrawerProps, 'visible'> & {onClose: () => void}) => {
     const [form] = Form.useForm();
