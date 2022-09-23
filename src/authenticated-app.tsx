@@ -11,7 +11,7 @@ import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg';
 import { useAuth } from 'context/auth-context';
 import { resetRoute } from 'utils';
 
-export const AuthenticatedApp = () => {
+export default () => {
     return (
         <Container>
             <PageHeader />

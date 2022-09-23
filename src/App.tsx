@@ -1,17 +1,19 @@
 import { useAuth } from 'context/auth-context';
-import { AuthenticatedApp } from 'authenticated-app';
-import { UnauthenticatedApp } from 'unauthenticated-app';
-import { ErrorBoundary } from 'components/error-boundary';
-import { FullPageErrorFallback } from 'components/lib';
+import { FullPageLoading } from 'components/lib';
 import 'App.css';
+import { Suspense, lazy } from 'react';
+
+// React 代码分割：Suspense
+const AuthenticatedApp = lazy(() => import('authenticated-app')); // 默认 export default 导出组件
+const UnauthenticatedApp = lazy(() => import('unauthenticated-app'));
 
 function App() {
     const { user } = useAuth();
     return (
         <div className="App">
-            <ErrorBoundary fallbackRender={FullPageErrorFallback}>
+                <Suspense fallback={<FullPageLoading />}>
                 {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
-            </ErrorBoundary>
+            </Suspense>
         </div>
     );
 }
