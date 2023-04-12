@@ -7,6 +7,18 @@
     "type": "git",
     "url": "git+https://github.com/NoEnd-for-learning/jira.git"
   },
+  "keywords": [
+    "jira",
+    "react",
+    "hooks"
+  ],
+  "author": "annie_tim",
+  "email": "1516969241@qq.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NoEnd-for-learning/jira/issues"
+  },
+  "homepage": "https://github.com/NoEnd-for-learning/jira#readme",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
