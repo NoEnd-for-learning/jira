@@ -1,7 +1,12 @@
 {
-  "name": "jira",
-  "version": "0.1.0",
-  "private": true,
+  "name": "jira_annie",
+  "version": "1.0.0",
+  "main": "./src/index.tsx",
+  "description": "Annie 学习react-hooks demo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoEnd-for-learning/jira.git"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
