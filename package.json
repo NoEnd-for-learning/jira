@@ -1,7 +1,6 @@
 {
   "name": "jira_annie",
-  "version": "1.0.0",
-  "main": "./src/index.tsx",
+  "version": "1.0.1",
   "description": "Annie 学习react-hooks demo",
   "repository": {
     "type": "git",
@@ -18,7 +17,6 @@
   "bugs": {
     "url": "https://github.com/NoEnd-for-learning/jira/issues"
   },
-  "homepage": "https://github.com/NoEnd-for-learning/jira#readme",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
@@ -84,7 +82,7 @@
     "gh-pages": "^4.0.0",
     "husky": "6.0.0",
     "jira-dev-tool": "file:__jira-dev-tool__",
-    "json-server": "^0.17.0",
+    "json-server": "^0.17.3",
     "lint-staged": "10.5.4",
     "msw": "^0.47.3",
     "prettier": "^2.7.1"
